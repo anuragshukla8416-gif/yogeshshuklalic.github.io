@@ -4,311 +4,356 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yogesh Shukla | Certified Financial Planner & Wealth Advisor</title>
-    <!-- Tailwind CSS for robust, responsive styling -->
+    
+    <!-- Tailwind CSS for modern responsive utilities -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons for clean UI elements -->
+    <!-- Google Fonts: Playfair Display for elite legacy feel, Plus Jakarta Sans for ultra-modern body typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for premium minimalistic iconography -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for interactive wealth projection analytics -->
+    <!-- Chart.js for beautiful interactive analytics projections -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Custom smooth transition styles */
+        /* Smooth transitions & sophisticated glowing elements */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+        }
+        .emerald-glow {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
+        }
         .fade-in {
-            animation: fadeIn 0.3s ease-in-out forwards;
+            animation: fadeIn 0.4s ease-out forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Style range slider track cleanly */
+        /* Custom styled slider thumb matching premium colorways */
         input[type="range"]::-webkit-slider-thumb {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            background: #2563eb;
+            background: #f59e0b; /* Gold/Amber */
             cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+            border: 2px solid #ffffff;
+            transition: transform 0.1s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-[#050814] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-amber-500/30 selection:text-amber-200">
 
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('portal')">
-                <div class="bg-blue-600 text-white p-2 rounded-xl">
-                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+    <!-- Glowing Background Accents for Visual Depth -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-0 right-1/4 w-[600px] h-[600px] bg-amber-900/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+    <!-- Header Navigation -->
+    <nav class="bg-[#050814]/70 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3.5 cursor-pointer" onclick="navigateTo('portal')">
+                <div class="bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 p-2.5 rounded-xl shadow-lg shadow-amber-500/10">
+                    <i data-lucide="shield-check" class="w-6 h-6 stroke-[2]"></i>
                 </div>
                 <div>
-                    <span class="font-bold text-lg text-slate-900 block leading-tight">Yogesh Shukla</span>
-                    <span class="text-xs text-blue-600 font-bold tracking-wide uppercase">Certified Financial Planner</span>
+                    <span class="font-serif font-black text-xl text-white tracking-wide block leading-none">Yogesh Shukla</span>
+                    <span class="text-[10px] text-amber-400 font-semibold tracking-widest uppercase block mt-1">Certified Financial Planner</span>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3">
-                <button id="navAdminBtn" onclick="navigateTo('admin')" class="text-sm font-semibold text-slate-600 hover:text-blue-600 px-3.5 py-2 rounded-xl hover:bg-slate-50 transition flex items-center space-x-1.5">
-                    <i data-lucide="lock" class="w-4 h-4"></i>
+                <button id="navAdminBtn" onclick="navigateTo('admin')" class="text-xs font-semibold text-slate-400 hover:text-amber-400 px-4 py-2.5 rounded-xl bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/60 hover:border-amber-500/30 transition-all duration-300 flex items-center space-x-2">
+                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-500"></i>
                     <span>Admin Workspace</span>
                 </button>
-                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-sm font-semibold text-red-600 hover:text-red-700 px-3.5 py-2 rounded-xl hover:bg-red-50 transition flex items-center space-x-1.5">
-                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-xs font-semibold text-rose-400 hover:text-white px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500 border border-rose-500/20 hover:border-transparent transition-all duration-300 flex items-center space-x-1.5">
+                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
                     <span>Logout</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Global Floating Notification System (Replacing native Alert popup) -->
-    <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 pointer-events-none"></div>
+    <!-- Global Floating Notification System (Built-in alerts replacement) -->
+    <div id="toastContainer" class="fixed top-24 right-4 z-50 space-y-3 pointer-events-none"></div>
 
     <!-- Animated Simulated SMS Gateway Notification Toast -->
-    <div id="smsNotificationToast" class="fixed bottom-6 right-4 z-50 max-w-sm w-full bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-700 hidden transform translate-y-20 transition-all duration-300 ease-out flex items-start space-x-3">
-        <div class="bg-blue-600 p-2 rounded-xl text-white">
-            <i data-lucide="smartphone" class="w-5 h-5"></i>
+    <div id="smsNotificationToast" class="fixed bottom-6 right-4 z-50 max-w-sm w-full bg-slate-950 text-white p-5 rounded-2xl shadow-2xl border border-slate-800 hidden transform translate-y-20 transition-all duration-300 ease-out flex items-start space-x-4">
+        <div class="bg-amber-500/10 text-amber-400 p-2.5 rounded-xl">
+            <i data-lucide="smartphone-charging" class="w-5 h-5"></i>
         </div>
         <div class="flex-1">
             <div class="flex items-center justify-between">
-                <span class="font-bold text-xs uppercase tracking-wider text-slate-400">SMS Gateway Simulator</span>
-                <button onclick="closeSmsToast()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <span class="font-bold text-[10px] uppercase tracking-widest text-amber-400">SMS Gateway Simulator</span>
+                <button onclick="closeSmsToast()" class="text-slate-500 hover:text-white transition"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
-            <p class="text-xs text-slate-300 mt-1">From: <strong class="text-white">YogeshShuklaLIC</strong></p>
+            <p class="text-[11px] text-slate-400 mt-1">From: <strong class="text-slate-200">YogeshShuklaCFP</strong></p>
             <p class="text-sm text-slate-100 font-medium mt-1 leading-relaxed" id="smsNotificationBody"></p>
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE PORTAL APP WRAPPER -->
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 py-12 flex-1 w-full">
 
-        <section id="authGateway" class="max-w-md mx-auto my-12 bg-white border border-slate-200 rounded-2xl shadow-sm p-8 fade-in">
-            <div class="text-center mb-6">
-                <div class="mx-auto w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3">
-                    <i data-lucide="user-check" class="w-6 h-6"></i>
+        <!-- SECURE OTP GATEWAY -->
+        <section id="authGateway" class="max-w-md mx-auto my-12 glass-panel rounded-2xl p-8 fade-in relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-amber-500 via-yellow-400 to-emerald-500"></div>
+            
+            <div class="text-center mb-8">
+                <div class="mx-auto w-14 h-14 bg-amber-500/5 text-amber-400 rounded-2xl flex items-center justify-center border border-amber-500/10 mb-4">
+                    <i data-lucide="user-check" class="w-7 h-7"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-900">Secure Client Access</h2>
-                <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Please authenticate with your mobile number or email to suggestion-match policies and register quotes directly with Yogesh.</p>
+                <h2 class="font-serif text-2xl font-bold text-white tracking-wide">Secure Client Access</h2>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">Authenticate securely with your credentials to access personalized wealth strategy matching.</p>
             </div>
 
             <!-- Login Input Request View -->
-            <div id="authRequestForm" class="space-y-4">
+            <div id="authRequestForm" class="space-y-5">
                 <div>
-                    <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5">Mobile Number / Email</label>
-                    <input type="text" id="authIdentifier" placeholder="e.g. +91 98300 12345 or client@email.com" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 text-sm">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Mobile Number or Email Address</label>
+                    <input type="text" id="authIdentifier" placeholder="e.g. +91 98300 12345 or client@email.com" class="w-full bg-slate-950/70 border border-slate-800 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white text-sm placeholder:text-slate-600 transition-all">
                 </div>
-                <button onclick="requestOTP()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-sm shadow-blue-200">
+                <button onclick="requestOTP()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition duration-300 flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20">
                     <span>Send Verification Code</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <i data-lucide="arrow-right" class="w-4 h-4 stroke-[2.5]"></i>
                 </button>
             </div>
 
             <!-- Login OTP Verification Code Input View -->
-            <div id="authVerificationForm" class="hidden space-y-5">
+            <div id="authVerificationForm" class="hidden space-y-6">
                 <div>
-                    <label class="block text-[11px] font-bold uppercase text-slate-500 mb-2 text-center">Enter 4-Digit Security Code</label>
-                    <div class="flex justify-center space-x-3" id="otpFieldsGroup">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-center text-slate-400 mb-3">Enter 4-Digit Secure Token</label>
+                    <div class="flex justify-center space-x-3.5" id="otpFieldsGroup">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
                     </div>
                 </div>
-                <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition shadow-sm shadow-emerald-200">
-                    Verify & Access Portal
+                <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-emerald-600/10">
+                    Verify & Enter Advisor Portal
                 </button>
                 <div class="text-center">
-                    <span id="otpTimerText" class="text-xs text-slate-400">Resend available in <strong id="timerCountdown">30</strong> seconds</span>
-                    <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-blue-600 font-bold hover:underline">Resend Verification Code</button>
+                    <span id="otpTimerText" class="text-xs text-slate-500">Resend available in <strong id="timerCountdown" class="text-slate-300">30</strong> seconds</span>
+                    <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-amber-400 font-bold hover:underline transition">Resend Verification Code</button>
                 </div>
             </div>
         </section>
 
-        <section id="portalWorkspace" class="hidden space-y-10 fade-in">
+        <!-- PORTAL WORKSPACE (Live once authenticated) -->
+        <section id="portalWorkspace" class="hidden space-y-12 fade-in">
             
-            <!-- Professional Header BIO Credentials Panel -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-sm">
-                <div class="space-y-4 max-w-3xl">
+            <!-- Elite Header Bio & Credentials Panel -->
+            <div class="glass-panel rounded-3xl p-8 md:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-amber-500/5 to-transparent rounded-full pointer-events-none -z-10"></div>
+                <div class="space-y-5 max-w-3xl">
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-50 text-blue-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-blue-100">Certified CFP® Advisor</span>
-                        <span class="bg-emerald-50 text-emerald-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-emerald-100">MDRT Member</span>
-                        <span class="bg-amber-50 text-amber-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-amber-100">Retirement Planning Specialist</span>
+                        <span class="bg-amber-500/10 text-amber-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-amber-500/20">Certified CFP® Advisor</span>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-emerald-500/20">MDRT Member</span>
+                        <span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-indigo-500/20">LIFE Retirement Expert</span>
                     </div>
-                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Yogesh Shukla</h1>
-                    <p class="text-slate-600 leading-relaxed text-sm">
-                        Specializing in providing highly client-centered, integrity-driven independent advice to individuals, businesses, and family trusts. Radically improving the quality of insurance asset protection and long-term financial experience through a personalized approach.
+                    <h1 class="font-serif text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none">Yogesh Shukla</h1>
+                    <p class="text-slate-300 leading-relaxed text-sm md:text-base font-light">
+                        Specialize in providing highly client-centered, integrity-driven independent advice to individuals, businesses, and family trusts. Radically improving the quality of strategic asset protection and long-term financial coordination through a legacy-focused personal approach.
                     </p>
-                    <div class="flex flex-wrap gap-4 text-xs text-slate-500 font-semibold pt-2">
-                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mr-1.5"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
-                        <span class="flex items-center"><i data-lucide="award" class="w-4 h-4 text-slate-400 mr-1.5"></i>CFP Registration ID: IN-2947118</span>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-400 pt-2 font-medium">
+                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-amber-400 mr-2"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
+                        <span class="flex items-center"><i data-lucide="award" class="w-4 h-4 text-amber-400 mr-2"></i>CFP Reg ID: IN-2947118</span>
                     </div>
                 </div>
 
                 <!-- Credential Fact Pillars -->
-                <div class="grid grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 lg:border-l border-slate-200 pt-6 lg:pt-0 lg:pl-8 shrink-0">
-                    <div class="bg-slate-50 p-4 rounded-xl">
-                        <span class="text-2xl font-black text-slate-900 block leading-none">1,850+</span>
-                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-1.5">Loyal Customers</span>
+                <div class="grid grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 lg:border-l border-slate-800/80 pt-8 lg:pt-0 lg:pl-10 shrink-0">
+                    <div class="bg-slate-950/60 border border-slate-800/60 p-5 rounded-2xl min-w-[140px]">
+                        <span class="text-3xl font-black text-white block font-serif">1,850+</span>
+                        <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block mt-2">Loyal Customers</span>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl">
-                        <span class="text-2xl font-black text-blue-600 block leading-none">₹43.8Cr+</span>
-                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-1.5">Life Fund Assets</span>
+                    <div class="bg-slate-950/60 border border-slate-800/60 p-5 rounded-2xl min-w-[140px]">
+                        <span class="text-3xl font-black text-amber-400 block font-serif">₹43.8Cr+</span>
+                        <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block mt-2">Life Fund Assets</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Core Interactive Recommendation Tool Module -->
+            <!-- Interactive Recommendation Console Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 <!-- Setup Inputs Card Console -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6 h-fit">
-                    <div class="border-b border-slate-100 pb-4">
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-                            <i data-lucide="sliders-horizontal" class="w-5 h-5 text-blue-600"></i>
-                            <span>Financial Goal Criteria</span>
+                <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6 h-fit relative">
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-amber-500 to-transparent"></div>
+                    <div class="border-b border-slate-800 pb-4">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center space-x-2.5">
+                            <i data-lucide="sliders-horizontal" class="w-5 h-5 text-amber-400"></i>
+                            <span>Financial Criteria</span>
                         </h3>
-                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Adjust your metrics below to browse flagship products dynamically mapped to your budget.</p>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Adjust your financial metrics to instantly browse flagship strategies dynamically tailored to your cashflow.</p>
                     </div>
 
-                    <!-- Goal Input selector -->
+                    <!-- Goal Input Selector -->
                     <div>
-                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-2">Primary Target Goal</label>
-                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-semibold">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Primary Advisory Goal</label>
+                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3.5 py-3 bg-slate-950 border border-slate-800 text-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs font-semibold tracking-wide cursor-pointer transition">
                             <option value="protection">Pure Family Protection (Term Plans)</option>
                             <option value="income">Guaranteed Lifetime Income (Retirement)</option>
-                            <option value="wealth">Wealth Growth & Shielding (ULIPs)</option>
+                            <option value="wealth">Wealth Growth & Shielding (ULIPs / Asset Allocation)</option>
                             <option value="health">Family Medical Security (Health Cover)</option>
                         </select>
                     </div>
 
                     <!-- Budget scale slider -->
                     <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-[11px] font-bold uppercase text-slate-500">Monthly Budget</label>
-                            <span id="sliderValueDisplay" class="text-sm font-extrabold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md">₹5,000</span>
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Target Monthly Allocation</label>
+                            <span id="sliderValueDisplay" class="text-xs font-extrabold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md">₹5,000</span>
                         </div>
-                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full accent-blue-600 h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase pt-1">
-                            <span>$1,000</span>
-                            <span>$20,000</span>
+                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-[9px] text-slate-500 font-bold uppercase tracking-wide pt-2">
+                            <span>₹1,500</span>
+                            <span>₹25,000</span>
                         </div>
                     </div>
 
                     <!-- Visual Quick Info Box -->
-                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 text-xs text-blue-900 flex gap-2">
-                        <span class="material-icons text-sm mt-0.5">info</span>
-                        <p class="leading-relaxed">This module dynamically runs real programmatic premium metrics against top independent providers to isolate options.</p>
+                    <div class="bg-indigo-950/20 border border-indigo-900/30 rounded-xl p-4 text-xs text-indigo-300 flex items-start space-x-2.5">
+                        <i data-lucide="info" class="w-4 h-4 shrink-0 text-indigo-400 mt-0.5"></i>
+                        <p class="leading-relaxed font-light">This algorithm scans master independent risk assets across elite carriers to match eligibility frameworks.</p>
                     </div>
                 </div>
 
-                <!-- Dynamic Recommendations Presentation Column -->
-                <div class="lg:col-span-2 space-y-4">
+                <!-- Dynamic Suggestions Presenter Deck -->
+                <div class="lg:col-span-2 space-y-5">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-emerald-600"></i>
-                            <span>Flagship Option Suggestions</span>
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center space-x-2.5">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
+                            <span>Tailored Product Recommendations</span>
                         </h3>
-                        <span id="matchCountBadge" class="bg-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">3 Options Matched</span>
+                        <span id="matchCountBadge" class="bg-slate-900 text-slate-400 text-xs font-semibold px-3 py-1 rounded-full border border-slate-800/60">3 Options Matched</span>
                     </div>
 
                     <!-- Cards Deck Container -->
                     <div id="recommendationDeck" class="space-y-4">
-                        <!-- Populated Dynamically by javascript -->
+                        <!-- Instantiated dynamically -->
                     </div>
 
-                    <!-- Dynamic Value Projections Chart (Aesthetics Boost) -->
-                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mt-6">
-                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <!-- Compounding Analytics Visualization (Aesthetics Boost) -->
+                    <div class="glass-panel rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                        <div class="flex items-center justify-between border-b border-slate-800/80 pb-4 mb-5">
                             <div>
-                                <h4 class="text-sm font-bold text-slate-900">Wealth & Protection Maturity Projection</h4>
-                                <p class="text-[11px] text-slate-400 mt-0.5">Estimated systematic compound return outlook based on select budget allocation</p>
+                                <h4 class="font-serif text-sm font-bold text-white">Systematic Portfolio Outlook Projection</h4>
+                                <p class="text-[11px] text-slate-400 mt-0.5">Projected systematic long-term output growth estimation based on budget value</p>
                             </div>
-                            <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 text-slate-500 rounded uppercase">CAGR 8% Estimate</span>
+                            <span class="text-[9px] bg-slate-900 border border-slate-800 font-bold px-2 py-1 text-slate-400 rounded-md uppercase tracking-wider">CAGR 8% Estimate</span>
                         </div>
-                        <div class="h-48 w-full relative">
+                        <div class="h-52 w-full relative">
                             <canvas id="growthChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Historical Claim Payout Verifications -->
-            <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-sm">
-                <div class="max-w-xl mb-6">
-                    <h3 class="text-xl font-bold tracking-tight">Verified Survival & Maturity Disbursals</h3>
-                    <p class="text-slate-400 text-xs mt-1">Real historical scale payouts managed, showing robust claim support efficiency.</p>
+            <!-- Trust-Building Claim History Presentation -->
+            <div class="bg-gradient-to-b from-[#090D1A] to-slate-950 border border-slate-800/80 text-white rounded-3xl p-8 shadow-xl">
+                <div class="max-w-xl mb-8">
+                    <h3 class="font-serif text-2xl font-bold tracking-wide">Survival & Maturity Disbursals</h3>
+                    <p class="text-slate-400 text-xs mt-1 leading-relaxed">Verified actual legacy payouts processed, demonstrating extreme claims assistance dependability.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-slate-800 pt-6">
-                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2019 - 20</span>
-                        <span class="text-2xl font-black text-slate-100 block">₹95 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-slate-800/80 pt-8">
+                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2019 - 20</span>
+                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹95 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
                     </div>
-                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2020 - 21</span>
-                        <span class="text-2xl font-black text-slate-100 block">₹86 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
+                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2020 - 21</span>
+                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹86 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
                     </div>
-                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
-                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2021 - 22</span>
-                        <span class="text-2xl font-black text-slate-100 block">₹1.23 Crore</span>
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
+                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2021 - 22</span>
+                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹1.23 Crore</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ADMIN AREA -->
         <section id="adminWorkspace" class="hidden space-y-6 fade-in">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-200 pb-4 gap-4">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-800 pb-5 gap-4">
                 <div>
-                    <h2 class="text-2xl font-black text-slate-900 flex items-center space-x-2">
-                        <i data-lucide="layout-dashboard" class="w-6 h-6 text-blue-600"></i>
+                    <h2 class="font-serif text-2xl font-bold text-white flex items-center space-x-2">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6 text-amber-500"></i>
                         <span>Admin Workspace Control</span>
                     </h2>
-                    <p class="text-xs text-slate-500 mt-1">Manage consultation logs, target budgets, and real status tracks locally.</p>
+                    <p class="text-xs text-slate-400 mt-1">Manage, evaluate, and track client inquiries, strategic budgets, and lifecycle conversions.</p>
                 </div>
                 
                 <!-- Action Controls Group -->
                 <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                    <button onclick="exportToCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5">
-                        <i data-lucide="download" class="w-4 h-4"></i>
-                        <span>Export CSV (Excel)</span>
+                    <button onclick="exportToCSV()" class="bg-slate-900/60 hover:bg-slate-900 text-slate-300 font-bold px-4 py-2.5 rounded-xl text-xs transition border border-slate-800/80 hover:border-slate-700/80 flex items-center space-x-2">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                        <span>Export CSV Sheet</span>
                     </button>
-                    <button onclick="toggleManualLeadModal(true)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm shadow-blue-100">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
+                    <button onclick="toggleManualLeadModal(true)" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center space-x-2 shadow-lg shadow-amber-500/10">
+                        <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                         <span>Inject Custom Lead</span>
                     </button>
-                    <button onclick="navigateTo('portal')" class="bg-slate-800 hover:bg-slate-950 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <button onclick="navigateTo('portal')" class="bg-slate-800 hover:bg-slate-950 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center space-x-2">
+                        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
                         <span>Client View</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Admin Overview KPI Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Leads</span>
-                    <span id="kpiTotalLeads" class="text-2xl font-black text-slate-900 block mt-1">0</span>
+            <!-- Admin Overview KPI Widgets -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Total Leads Logged</span>
+                    <span id="kpiTotalLeads" class="text-3xl font-serif font-black text-white block mt-1">0</span>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mapped Volume</span>
-                    <span id="kpiMappedPremium" class="text-2xl font-black text-blue-600 block mt-1">₹0</span>
+                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Total Mapped Allocation</span>
+                    <span id="kpiMappedPremium" class="text-3xl font-serif font-black text-amber-500 block mt-1">₹0</span>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Pending Conversion</span>
-                    <span id="kpiPendingLeads" class="text-2xl font-black text-amber-500 block mt-1">0</span>
+                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Pending Conversion</span>
+                    <span id="kpiPendingLeads" class="text-3xl font-serif font-black text-orange-400 block mt-1">0</span>
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Issued Policies</span>
-                    <span id="kpiIssuedPolicies" class="text-2xl font-black text-emerald-500 block mt-1">0</span>
+                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Successfully Issued</span>
+                    <span id="kpiIssuedPolicies" class="text-3xl font-serif font-black text-emerald-400 block mt-1">0</span>
                 </div>
             </div>
 
-            <!-- Lead Ledger Data Table -->
-            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+            <!-- Interactive Tabular Leads Grid -->
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-slate-800/80">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
+                            <tr class="bg-slate-950 border-b border-slate-800 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
                                 <th class="p-4">Submission Date</th>
-                                <th class="p-4">Client Identifier</th>
+                                <th class="p-4">Client Contact</th>
                                 <th class="p-4">Mapped Goal Domain</th>
                                 <th class="p-4 text-right">Target Budget</th>
                                 <th class="p-4">Action Strategy</th>
@@ -316,8 +361,8 @@
                                 <th class="p-4 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-100 text-xs text-slate-700 font-semibold">
-                            <!-- Populated dynamically via JS -->
+                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-800/60 text-xs text-slate-300 font-medium">
+                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -325,20 +370,20 @@
         </section>
 
         <!-- Dynamic Modal Backdrop: Inject Custom Lead (Admin Utility) -->
-        <div id="manualLeadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-            <div class="bg-white rounded-2xl shadow-xl max-w-md w-full border border-slate-200 overflow-hidden">
-                <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-                    <h3 class="font-bold text-lg text-slate-900">Manual Lead Registration</h3>
-                    <button onclick="toggleManualLeadModal(false)" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <div id="manualLeadModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+            <div class="bg-slate-950 rounded-2xl shadow-2xl max-w-md w-full border border-slate-800 overflow-hidden">
+                <div class="p-6 border-b border-slate-800/85 flex items-center justify-between">
+                    <h3 class="font-serif font-bold text-lg text-white">Manual Lead Registration</h3>
+                    <button onclick="toggleManualLeadModal(false)" class="text-slate-400 hover:text-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
                 </div>
                 <div class="p-6 space-y-4">
                     <div>
-                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Contact Email / Phone</label>
-                        <input type="text" id="manualContact" placeholder="e.g. client@email.com" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Contact Email / Phone</label>
+                        <input type="text" id="manualContact" placeholder="e.g. client@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Target Goal Domain</label>
-                        <select id="manualGoal" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-semibold text-slate-700">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Target Goal Domain</label>
+                        <select id="manualGoal" class="w-full px-3.5 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs font-semibold text-slate-300 transition">
                             <option value="Pure Family Protection">Pure Family Protection</option>
                             <option value="Guaranteed Lifetime Income">Guaranteed Lifetime Income</option>
                             <option value="Wealth Growth & Shielding">Wealth Growth & Shielding</option>
@@ -346,26 +391,26 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Proposed Monthly Budget (₹)</label>
-                        <input type="number" id="manualBudget" value="5000" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Proposed Monthly Budget (₹)</label>
+                        <input type="number" id="manualBudget" value="5000" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Proposed Plan Strategy</label>
-                        <input type="text" id="manualPlan" value="LIC Tech-Term" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Proposed Plan Strategy</label>
+                        <input type="text" id="manualPlan" value="LIC Tech-Term" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
                     </div>
                 </div>
-                <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end space-x-2">
-                    <button onclick="toggleManualLeadModal(false)" class="px-4 py-2 rounded-xl text-slate-700 font-semibold hover:bg-slate-200 text-sm transition">Cancel</button>
-                    <button onclick="submitManualLead()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition shadow-sm">Save Record</button>
+                <div class="p-6 bg-slate-900/50 border-t border-slate-800/85 flex justify-end space-x-2.5">
+                    <button onclick="toggleManualLeadModal(false)" class="px-5 py-2.5 rounded-xl text-slate-400 font-semibold hover:bg-slate-800 text-xs transition">Cancel</button>
+                    <button onclick="submitManualLead()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-md shadow-amber-500/10">Save Record</button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+    <footer class="bg-slate-950 text-slate-500 py-8 text-center text-xs border-t border-slate-900/80">
         <p>© 2026 Yogesh Shukla | Million Dollar Round Table (MDRT). All Rights Reserved.</p>
-        <p class="mt-1.5 text-slate-600">Authorized License Partner providing independent advisory across LIC, HDFC, SBI, ICICI & Max Life portfolios.</p>
+        <p class="mt-2 text-slate-600 max-w-xl mx-auto font-light leading-relaxed">Certified advisory partner delivering independent strategy modeling across LIC, HDFC Life, SBI Life, ICICI Pru & Max Life portfolios.</p>
     </footer>
 
     <!-- Core State & Logic Module Interface Link -->
@@ -434,10 +479,10 @@
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = `p-4 rounded-xl shadow-lg border text-xs font-semibold flex items-center space-x-2 pointer-events-auto fade-in ${
-                type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' :
-                type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
-                'bg-blue-50 border-blue-200 text-blue-800'
+            toast.className = `p-4 rounded-xl shadow-xl border text-xs font-semibold flex items-center space-x-2 pointer-events-auto fade-in ${
+                type === 'success' ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-300' :
+                type === 'error' ? 'bg-rose-950/80 border-rose-500/30 text-rose-300' :
+                'bg-slate-900/90 border-slate-800 text-slate-200'
             }`;
             
             const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info';
@@ -449,7 +494,7 @@
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
                 setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            }, 3500);
         }
 
         function navigateTo(targetView) {
@@ -574,7 +619,7 @@
 
             if (matches.length === 0) {
                 deck.innerHTML = `
-                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center text-amber-800 text-xs font-semibold">
+                    <div class="bg-amber-950/20 border border-amber-500/20 rounded-xl p-6 text-center text-amber-200 text-xs font-semibold">
                         No standard flagship policies directly scale down to this budget allocation. Adjust metric parameters to browse options.
                     </div>`;
                 return;
@@ -582,7 +627,7 @@
 
             matches.forEach(p => {
                 const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-sm transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4 fade-in";
+                card.className = "bg-slate-900/60 border border-slate-800/80 hover:border-amber-500/40 rounded-xl p-5 shadow-sm transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 fade-in";
                 
                 const callbackPayload = `Hello Mr. Yogesh Shukla, I am interested in exploring ${p.name} on my budget of ₹${currentBudget.toLocaleString('en-IN')}/month. Please schedule my review call.`;
                 const whatsappUrl = `https://wa.me/919830012345?text=${encodeURIComponent(callbackPayload)}`;
@@ -590,18 +635,18 @@
                 card.innerHTML = `
                     <div class="space-y-1">
                         <div class="flex items-center space-x-2">
-                            <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded uppercase border border-blue-100">${p.company}</span>
-                            <h4 class="text-sm font-bold text-slate-900">${p.name}</h4>
+                            <span class="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md uppercase border border-amber-500/20 tracking-wider">${p.company}</span>
+                            <h4 class="text-sm font-bold text-white">${p.name}</h4>
                         </div>
-                        <p class="text-xs text-slate-500 leading-relaxed">${p.highlight}</p>
-                        <span class="text-[10px] text-slate-400 block pt-1">Min Payout Premium allocation eligibility: <strong>₹${p.minBudget.toLocaleString('en-IN')}/mo</strong></span>
+                        <p class="text-xs text-slate-400 leading-relaxed">${p.highlight}</p>
+                        <span class="text-[10px] text-slate-500 block pt-1">Min Premium allocation eligibility: <strong>₹${p.minBudget.toLocaleString('en-IN')}/mo</strong></span>
                     </div>
                     <div class="flex items-center space-x-2 w-full md:w-auto">
-                        <button onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl transition text-center">
+                        <button onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl transition-all duration-300 text-center">
                             Register Inquiry
                         </button>
-                        <a href="${whatsappUrl}" target="_blank" onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 rounded-xl transition text-center flex items-center justify-center space-x-1 shadow-sm shadow-emerald-100">
-                            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                        <a href="${whatsappUrl}" target="_blank" onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-500 px-4 py-2.5 rounded-xl transition-all duration-300 text-center flex items-center justify-center space-x-1 shadow-sm shadow-amber-400/10">
+                            <i data-lucide="message-circle" class="w-3.5 h-3.5 stroke-[2.5]"></i>
                             <span>WhatsApp</span>
                         </a>
                     </div>
@@ -652,22 +697,22 @@
                 if (lead.status === 'Policy Issued') completed++;
 
                 const row = document.createElement('tr');
-                row.className = "hover:bg-slate-50 border-b border-slate-100 transition";
+                row.className = "hover:bg-slate-900/50 border-b border-slate-800/40 transition duration-150";
                 row.innerHTML = `
-                    <td class="p-4 text-slate-400 font-mono text-[11px]">${lead.timestamp}</td>
-                    <td class="p-4 text-slate-900 font-bold">${lead.contact}</td>
-                    <td class="p-4 text-slate-500 font-medium">${lead.domain}</td>
-                    <td class="p-4 text-right font-black text-slate-900">₹${premiumVal.toLocaleString('en-IN')}</td>
-                    <td class="p-4"><span class="bg-blue-50 text-blue-700 text-[10px] font-extrabold px-2 py-0.5 rounded border border-blue-100">${lead.actionPlan}</span></td>
+                    <td class="p-4 text-slate-500 font-mono text-[11px]">${lead.timestamp}</td>
+                    <td class="p-4 text-slate-200 font-bold">${lead.contact}</td>
+                    <td class="p-4 text-slate-400 font-medium text-xs">${lead.domain}</td>
+                    <td class="p-4 text-right font-black text-amber-400 font-mono">₹${premiumVal.toLocaleString('en-IN')}</td>
+                    <td class="p-4"><span class="bg-indigo-500/10 text-indigo-300 text-[10px] font-extrabold px-2.5 py-1 rounded-md border border-indigo-500/20 tracking-wider uppercase">${lead.actionPlan}</span></td>
                     <td class="p-4 text-center">
-                        <select onchange="updateLeadStatus(${idx}, this.value)" class="text-xs font-bold rounded-lg px-2 py-1.5 bg-slate-100 border-none text-slate-700 focus:ring-2 focus:ring-blue-500">
+                        <select onchange="updateLeadStatus(${idx}, this.value)" class="text-xs font-bold rounded-lg px-2.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-300 focus:ring-1 focus:ring-amber-500 focus:outline-none">
                             <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
                             <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>Contacted</option>
                             <option value="Policy Issued" ${lead.status === 'Policy Issued' ? 'selected' : ''}>Policy Issued</option>
                         </select>
                     </td>
                     <td class="p-4 text-center">
-                        <button onclick="deleteLeadRecord(${idx})" class="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        <button onclick="deleteLeadRecord(${idx})" class="text-rose-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </td>
                 `;
                 body.appendChild(row);
@@ -777,11 +822,15 @@
                     datasets: [{
                         label: 'Projected Portfolio Value (₹)',
                         data: dataValues,
-                        borderColor: '#2563eb',
-                        backgroundColor: 'rgba(37, 99, 235, 0.05)',
-                        borderWidth: 3,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.03)',
+                        borderWidth: 2.5,
                         tension: 0.4,
-                        fill: true
+                        fill: true,
+                        pointBackgroundColor: '#f59e0b',
+                        pointBorderColor: '#050814',
+                        pointHoverBackgroundColor: '#ffffff',
+                        pointHoverBorderColor: '#f59e0b'
                     }]
                 },
                 options: {
@@ -791,8 +840,22 @@
                         legend: { display: false }
                     },
                     scales: {
-                        y: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.03)',
+                                borderDash: [5, 5]
+                            },
                             ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.03)',
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                color: '#94a3b8',
                                 callback: function(value) {
                                     return '₹' + (value / 100000).toFixed(1) + ' L';
                                 }
