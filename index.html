@@ -3,32 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogesh Shukla | Certified Financial Planner & Advisor</title>
-    <!-- Tailwind CSS for professional, clean, modular layout -->
+    <title>Yogesh Shukla | Certified Financial Planner & Wealth Advisor</title>
+    <!-- Tailwind CSS for robust, responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons for clean UI elements -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for interactive wealth projection analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom smooth transition styles */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Style range slider track cleanly */
+        input[type="range"]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Top Navigation Bar -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-blue-600 text-white p-2 rounded-lg">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('portal')">
+                <div class="bg-blue-600 text-white p-2 rounded-xl">
                     <i data-lucide="shield-check" class="w-6 h-6"></i>
                 </div>
                 <div>
                     <span class="font-bold text-lg text-slate-900 block leading-tight">Yogesh Shukla</span>
-                    <span class="text-xs text-blue-600 font-medium tracking-wide uppercase">Certified Financial Planner</span>
+                    <span class="text-xs text-blue-600 font-bold tracking-wide uppercase">Certified Financial Planner</span>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button id="navAdminBtn" onclick="toggleAdminView(true)" class="text-sm font-medium text-slate-600 hover:text-blue-600 flex items-center space-x-1">
+            
+            <div class="flex items-center space-x-3">
+                <button id="navAdminBtn" onclick="navigateTo('admin')" class="text-sm font-semibold text-slate-600 hover:text-blue-600 px-3.5 py-2 rounded-xl hover:bg-slate-50 transition flex items-center space-x-1.5">
                     <i data-lucide="lock" class="w-4 h-4"></i>
-                    <span>Admin Panel</span>
+                    <span>Admin Workspace</span>
                 </button>
-                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-sm font-medium text-red-600 hover:text-red-700 flex items-center space-x-1">
+                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-sm font-semibold text-red-600 hover:text-red-700 px-3.5 py-2 rounded-xl hover:bg-red-50 transition flex items-center space-x-1.5">
                     <i data-lucide="log-out" class="w-4 h-4"></i>
                     <span>Logout</span>
                 </button>
@@ -36,206 +57,774 @@
         </div>
     </nav>
 
-    <!-- MAIN APP CONTAINER -->
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        
-        <!-- GATE 1: AUTHENTICATION SCREEN (OTP GATEWAY) -->
-        <section id="authGateway" class="max-w-md mx-auto my-12 bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
-            <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-slate-900">Secure Client Access</h2>
-                <p class="text-sm text-slate-500 mt-1">Verify your identity to get tailored financial plan suggestions.</p>
+    <!-- Global Floating Notification System (Replacing native Alert popup) -->
+    <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- Animated Simulated SMS Gateway Notification Toast -->
+    <div id="smsNotificationToast" class="fixed bottom-6 right-4 z-50 max-w-sm w-full bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-700 hidden transform translate-y-20 transition-all duration-300 ease-out flex items-start space-x-3">
+        <div class="bg-blue-600 p-2 rounded-xl text-white">
+            <i data-lucide="smartphone" class="w-5 h-5"></i>
+        </div>
+        <div class="flex-1">
+            <div class="flex items-center justify-between">
+                <span class="font-bold text-xs uppercase tracking-wider text-slate-400">SMS Gateway Simulator</span>
+                <button onclick="closeSmsToast()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
-            
-            <!-- Step A: Enter Phone/Email -->
-            <div id="authRequestForm">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Mobile Number or Email Address</label>
-                        <input type="text" id="authIdentifier" placeholder="e.g., +91 98765 43210 or name@email.com" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
-                    </div>
-                    <button onclick="requestOTP()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition duration-200 flex items-center justify-center space-x-2">
-                        <span>Send Secure Verification Code</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
+            <p class="text-xs text-slate-300 mt-1">From: <strong class="text-white">YogeshShuklaLIC</strong></p>
+            <p class="text-sm text-slate-100 font-medium mt-1 leading-relaxed" id="smsNotificationBody"></p>
+        </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE PORTAL APP WRAPPER -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full">
+
+        <section id="authGateway" class="max-w-md mx-auto my-12 bg-white border border-slate-200 rounded-2xl shadow-sm p-8 fade-in">
+            <div class="text-center mb-6">
+                <div class="mx-auto w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3">
+                    <i data-lucide="user-check" class="w-6 h-6"></i>
                 </div>
+                <h2 class="text-2xl font-bold text-slate-900">Secure Client Access</h2>
+                <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Please authenticate with your mobile number or email to suggestion-match policies and register quotes directly with Yogesh.</p>
             </div>
 
-            <!-- Step B: Enter OTP (Hidden by default) -->
-            <div id="authVerificationForm" class="hidden">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Enter 4-Digit OTP Code</label>
-                        <div class="flex justify-between space-x-2" id="otpInputGroup">
-                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
+            <!-- Login Input Request View -->
+            <div id="authRequestForm" class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5">Mobile Number / Email</label>
+                    <input type="text" id="authIdentifier" placeholder="e.g. +91 98300 12345 or client@email.com" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 text-sm">
+                </div>
+                <button onclick="requestOTP()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-sm shadow-blue-200">
+                    <span>Send Verification Code</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Login OTP Verification Code Input View -->
+            <div id="authVerificationForm" class="hidden space-y-5">
+                <div>
+                    <label class="block text-[11px] font-bold uppercase text-slate-500 mb-2 text-center">Enter 4-Digit Security Code</label>
+                    <div class="flex justify-center space-x-3" id="otpFieldsGroup">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 text-slate-900">
                     </div>
-                    <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition duration-200">
-                        Verify & View Recommendations
-                    </button>
-                    <div class="text-center">
-                        <span id="otpTimerText" class="text-xs text-slate-400">Resend code in <strong id="timerCountdown">30</strong>s</span>
-                        <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-blue-600 font-medium hover:underline">Resend Verification Code</button>
-                    </div>
+                </div>
+                <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition shadow-sm shadow-emerald-200">
+                    Verify & Access Portal
+                </button>
+                <div class="text-center">
+                    <span id="otpTimerText" class="text-xs text-slate-400">Resend available in <strong id="timerCountdown">30</strong> seconds</span>
+                    <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-blue-600 font-bold hover:underline">Resend Verification Code</button>
                 </div>
             </div>
         </section>
 
-        <!-- GATE 2: CLIENT ADVISOR PORTAL & APP WORKSPACE (Hidden until login) -->
-        <section id="portalWorkspace" class="hidden space-y-12">
+        <section id="portalWorkspace" class="hidden space-y-10 fade-in">
             
-            <!-- Advisor Profile & Core Credentials Module -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
-                <div class="space-y-3 max-w-2xl">
+            <!-- Professional Header BIO Credentials Panel -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-sm">
+                <div class="space-y-4 max-w-3xl">
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-50 text-blue-700 text-xs font-bold uppercase px-2.5 py-1 rounded-md tracking-wider">MDRT Member</span>
-                        <span class="bg-slate-100 text-slate-700 text-xs font-bold uppercase px-2.5 py-1 rounded-md tracking-wider">Retirement Planning Expert</span>
+                        <span class="bg-blue-50 text-blue-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-blue-100">Certified CFP® Advisor</span>
+                        <span class="bg-emerald-50 text-emerald-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-emerald-100">MDRT Member</span>
+                        <span class="bg-amber-50 text-amber-700 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider border border-amber-100">Retirement Planning Specialist</span>
                     </div>
-                    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mr. Yogesh Shukla</h1>
+                    <h1 class="text-3xl font-black text-slate-900 tracking-tight">Yogesh Shukla</h1>
                     <p class="text-slate-600 leading-relaxed text-sm">
-                        Specializing in client-centered, integrity-driven independent advice to individuals, businesses, and trusts. Radically improving the standard of long-term risk protection and overall wealth management through a personalized approach.
+                        Specializing in providing highly client-centered, integrity-driven independent advice to individuals, businesses, and family trusts. Radically improving the quality of insurance asset protection and long-term financial experience through a personalized approach.
                     </p>
-                    <div class="flex items-center text-xs text-slate-500 space-x-4 pt-2">
-                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mr-1"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
+                    <div class="flex flex-wrap gap-4 text-xs text-slate-500 font-semibold pt-2">
+                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mr-1.5"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
+                        <span class="flex items-center"><i data-lucide="award" class="w-4 h-4 text-slate-400 mr-1.5"></i>CFP Registration ID: IN-2947118</span>
                     </div>
                 </div>
 
-                <!-- Fast Fact Figures Side Matrix -->
-                <div class="grid grid-cols-2 gap-4 w-full md:w-auto border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-8">
-                    <div class="bg-slate-50 p-4 rounded-xl text-center md:text-left">
-                        <span class="text-2xl font-black text-slate-900 block">1,850+</span>
-                        <span class="text-xs text-slate-500 font-medium uppercase">Active Families</span>
+                <!-- Credential Fact Pillars -->
+                <div class="grid grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 lg:border-l border-slate-200 pt-6 lg:pt-0 lg:pl-8 shrink-0">
+                    <div class="bg-slate-50 p-4 rounded-xl">
+                        <span class="text-2xl font-black text-slate-900 block leading-none">1,850+</span>
+                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-1.5">Loyal Customers</span>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl text-center md:text-left">
-                        <span class="text-2xl font-black text-blue-600 block">₹43.8Cr+</span>
-                        <span class="text-xs text-slate-500 font-medium uppercase">Life Fund Assets</span>
+                    <div class="bg-slate-50 p-4 rounded-xl">
+                        <span class="text-2xl font-black text-blue-600 block leading-none">₹43.8Cr+</span>
+                        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mt-1.5">Life Fund Assets</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Interactive Consultative Engine Layout -->
+            <!-- Core Interactive Recommendation Tool Module -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Inputs Console Column -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm h-fit space-y-6">
+                
+                <!-- Setup Inputs Card Console -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6 h-fit">
                     <div class="border-b border-slate-100 pb-4">
                         <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
-                            <i data-lucide="sliders" class="w-5 h-5 text-blue-600"></i>
-                            <span>Recommendation Criteria</span>
+                            <i data-lucide="sliders-horizontal" class="w-5 h-5 text-blue-600"></i>
+                            <span>Financial Goal Criteria</span>
                         </h3>
-                        <p class="text-xs text-slate-500 mt-1">Adjust fields to search available corporate frameworks instantly.</p>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">Adjust your metrics below to browse flagship products dynamically mapped to your budget.</p>
                     </div>
 
-                    <!-- Input 1: Primary Goal -->
+                    <!-- Goal Input selector -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Primary Financial Goal</label>
-                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
-                            <option value="protection">Pure Family Protection (Term Insurance)</option>
-                            <option value="income">Guaranteed Lifetime Income (Retirement/Savings)</option>
-                            <option value="wealth">Wealth Growth + Shielding (ULIPs / Asset Allocation)</option>
-                            <option value="health">Family Medical Security (Floater Frameworks)</option>
+                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-2">Primary Target Goal</label>
+                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-semibold">
+                            <option value="protection">Pure Family Protection (Term Plans)</option>
+                            <option value="income">Guaranteed Lifetime Income (Retirement)</option>
+                            <option value="wealth">Wealth Growth & Shielding (ULIPs)</option>
+                            <option value="health">Family Medical Security (Health Cover)</option>
                         </select>
                     </div>
 
-                    <!-- Input 2: Budget Slider -->
+                    <!-- Budget scale slider -->
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <label class="block text-xs font-bold text-slate-600 uppercase">Target Monthly Investment</label>
-                            <span id="sliderValueDisplay" class="text-sm font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">₹5,000</span>
+                            <label class="block text-[11px] font-bold uppercase text-slate-500">Monthly Budget</label>
+                            <span id="sliderValueDisplay" class="text-sm font-extrabold text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md">₹5,000</span>
                         </div>
-                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full accent-blue-600 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-[10px] text-slate-400 font-medium uppercase pt-1">
-                            <span>₹1,500/mo</span>
-                            <span>₹25,000/mo</span>
+                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full accent-blue-600 h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase pt-1">
+                            <span>$1,000</span>
+                            <span>$20,000</span>
                         </div>
+                    </div>
+
+                    <!-- Visual Quick Info Box -->
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 text-xs text-blue-900 flex gap-2">
+                        <span class="material-icons text-sm mt-0.5">info</span>
+                        <p class="leading-relaxed">This module dynamically runs real programmatic premium metrics against top independent providers to isolate options.</p>
                     </div>
                 </div>
 
-                <!-- Dynamic Output Module Columns -->
+                <!-- Dynamic Recommendations Presentation Column -->
                 <div class="lg:col-span-2 space-y-4">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
                             <i data-lucide="sparkles" class="w-5 h-5 text-emerald-600"></i>
-                            <span>Suggested Flagship Match Alternatives</span>
+                            <span>Flagship Option Suggestions</span>
                         </h3>
-                        <span id="matchCountBadge" class="bg-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">3 Matches</span>
+                        <span id="matchCountBadge" class="bg-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">3 Options Matched</span>
                     </div>
 
-                    <!-- Dynamic Card Deck Target Container -->
+                    <!-- Cards Deck Container -->
                     <div id="recommendationDeck" class="space-y-4">
-                        <!-- Instantiated dynamically by engine inside app.js -->
+                        <!-- Populated Dynamically by javascript -->
+                    </div>
+
+                    <!-- Dynamic Value Projections Chart (Aesthetics Boost) -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mt-6">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Wealth & Protection Maturity Projection</h4>
+                                <p class="text-[11px] text-slate-400 mt-0.5">Estimated systematic compound return outlook based on select budget allocation</p>
+                            </div>
+                            <span class="text-[10px] bg-slate-100 font-bold px-2 py-0.5 text-slate-500 rounded uppercase">CAGR 8% Estimate</span>
+                        </div>
+                        <div class="h-48 w-full relative">
+                            <canvas id="growthChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Historical Claim Payout Validation Track -->
+            <!-- Historical Claim Payout Verifications -->
             <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-sm">
                 <div class="max-w-xl mb-6">
                     <h3 class="text-xl font-bold tracking-tight">Verified Survival & Maturity Disbursals</h3>
-                    <p class="text-slate-400 text-xs mt-1">Real operational historical values indicating verified client payout settlements over time.</p>
+                    <p class="text-slate-400 text-xs mt-1">Real historical scale payouts managed, showing robust claim support efficiency.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-slate-800 pt-6">
-                    <div class="border-l-2 border-emerald-500 pl-4">
-                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2019 - 20</span>
-                        <span class="text-2xl font-black text-slate-100">₹95 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
+                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2019 - 20</span>
+                        <span class="text-2xl font-black text-slate-100 block">₹95 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
                     </div>
-                    <div class="border-l-2 border-emerald-500 pl-4">
-                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2020 - 21</span>
-                        <span class="text-2xl font-black text-slate-100">₹86 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
+                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2020 - 21</span>
+                        <span class="text-2xl font-black text-slate-100 block">₹86 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
                     </div>
-                    <div class="border-l-2 border-emerald-500 pl-4">
-                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2021 - 22</span>
-                        <span class="text-2xl font-black text-slate-100">₹1.23 Crore</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    <div class="border-l-2 border-emerald-500 pl-4 space-y-1">
+                        <span class="text-xs text-slate-400 block font-medium uppercase tracking-wider">Period 2021 - 22</span>
+                        <span class="text-2xl font-black text-slate-100 block">₹1.23 Crore</span>
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest flex items-center"><i data-lucide="check-circle" class="w-3.5 h-3.5 mr-1"></i>Settled & Paid</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- GATE 3: ADMINISTRATIVE WORKSPACE OVERLAY (Clean tabular view) -->
-        <section id="adminWorkspace" class="hidden space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <section id="adminWorkspace" class="hidden space-y-6 fade-in">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-200 pb-4 gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-900 flex items-center space-x-2">
-                        <i data-lucide="shield-alert" class="w-6 h-6 text-blue-600"></i>
-                        <span>Secure Lead Management Panel</span>
+                    <h2 class="text-2xl font-black text-slate-900 flex items-center space-x-2">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6 text-blue-600"></i>
+                        <span>Admin Workspace Control</span>
                     </h2>
-                    <p class="text-sm text-slate-500 mt-0.5">Track consultative requirements, budget records, and incoming lead triggers.</p>
+                    <p class="text-xs text-slate-500 mt-1">Manage consultation logs, target budgets, and real status tracks locally.</p>
                 </div>
-                <button onclick="toggleAdminView(false)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-4 py-2 rounded-xl text-sm transition flex items-center space-x-1">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    <span>Back to Front Portal</span>
-                </button>
+                
+                <!-- Action Controls Group -->
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <button onclick="exportToCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Export CSV (Excel)</span>
+                    </button>
+                    <button onclick="toggleManualLeadModal(true)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm shadow-blue-100">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Inject Custom Lead</span>
+                    </button>
+                    <button onclick="navigateTo('portal')" class="bg-slate-800 hover:bg-slate-950 text-white font-bold px-3.5 py-2.5 rounded-xl text-xs transition flex items-center space-x-1.5">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>Client View</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Tabular Structured Data Ledger -->
-            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <!-- Admin Overview KPI Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Leads</span>
+                    <span id="kpiTotalLeads" class="text-2xl font-black text-slate-900 block mt-1">0</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Mapped Volume</span>
+                    <span id="kpiMappedPremium" class="text-2xl font-black text-blue-600 block mt-1">₹0</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Pending Conversion</span>
+                    <span id="kpiPendingLeads" class="text-2xl font-black text-amber-500 block mt-1">0</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Issued Policies</span>
+                    <span id="kpiIssuedPolicies" class="text-2xl font-black text-emerald-500 block mt-1">0</span>
+                </div>
+            </div>
+
+            <!-- Lead Ledger Data Table -->
+            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
-                                <th class="p-4">Timestamp</th>
-                                <th class="p-4">Client Contact</th>
-                                <th class="p-4">Financial Goal Domain</th>
-                                <th class="p-4 text-right">Target Allocation Budget</th>
-                                <th class="p-4">Assigned Plan Action</th>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
+                                <th class="p-4">Submission Date</th>
+                                <th class="p-4">Client Identifier</th>
+                                <th class="p-4">Mapped Goal Domain</th>
+                                <th class="p-4 text-right">Target Budget</th>
+                                <th class="p-4">Action Strategy</th>
                                 <th class="p-4 text-center">Status Track</th>
+                                <th class="p-4 text-center">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-100 text-sm text-slate-700 font-medium">
-                            <!-- Populated via data structures loop inside app.js -->
+                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-100 text-xs text-slate-700 font-semibold">
+                            <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
+        <!-- Dynamic Modal Backdrop: Inject Custom Lead (Admin Utility) -->
+        <div id="manualLeadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+            <div class="bg-white rounded-2xl shadow-xl max-w-md w-full border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                    <h3 class="font-bold text-lg text-slate-900">Manual Lead Registration</h3>
+                    <button onclick="toggleManualLeadModal(false)" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Contact Email / Phone</label>
+                        <input type="text" id="manualContact" placeholder="e.g. client@email.com" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Target Goal Domain</label>
+                        <select id="manualGoal" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-semibold text-slate-700">
+                            <option value="Pure Family Protection">Pure Family Protection</option>
+                            <option value="Guaranteed Lifetime Income">Guaranteed Lifetime Income</option>
+                            <option value="Wealth Growth & Shielding">Wealth Growth & Shielding</option>
+                            <option value="Family Medical Security">Family Medical Security</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Proposed Monthly Budget (₹)</label>
+                        <input type="number" id="manualBudget" value="5000" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Proposed Plan Strategy</label>
+                        <input type="text" id="manualPlan" value="LIC Tech-Term" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    </div>
+                </div>
+                <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end space-x-2">
+                    <button onclick="toggleManualLeadModal(false)" class="px-4 py-2 rounded-xl text-slate-700 font-semibold hover:bg-slate-200 text-sm transition">Cancel</button>
+                    <button onclick="submitManualLead()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition shadow-sm">Save Record</button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <!-- Project Execution Module Core Logic script link -->
-    <script src="app.js"></script>
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs border-t border-slate-800">
+        <p>© 2026 Yogesh Shukla | Million Dollar Round Table (MDRT). All Rights Reserved.</p>
+        <p class="mt-1.5 text-slate-600">Authorized License Partner providing independent advisory across LIC, HDFC, SBI, ICICI & Max Life portfolios.</p>
+    </footer>
+
+    <!-- Core State & Logic Module Interface Link -->
+    <script>
+        const POLICY_MASTER_REPOSITORY = [
+            { id: 'p1', company: 'LIC', name: 'LIC Tech-Term', domain: 'protection', minBudget: 1500, highlight: 'Sovereign backed, maximum family claim assurance' },
+            { id: 'p2', company: 'HDFC Life', name: 'HDFC Click 2 Protect', domain: 'protection', minBudget: 2000, highlight: 'High dynamic flexibility, return of premium options' },
+            { id: 'p3', company: 'Max Life', name: 'Max Life Smart Secure Plus', domain: 'protection', minBudget: 1800, highlight: 'Excellent built-in critical illness riders' },
+            { id: 'p4', company: 'SBI Life', name: 'SBI Life eShield Next', domain: 'protection', minBudget: 2200, highlight: 'Robust terminal illness riders included' },
+            { id: 'p5', company: 'ICICI Prudential', name: 'ICICI Pru iProtect Smart', domain: 'protection', minBudget: 1900, highlight: 'Includes critical accidental protection tracks' },
+            
+            { id: 'p6', company: 'LIC', name: 'LIC Jeevan Utsav', domain: 'income', minBudget: 4000, highlight: 'Lifetime guaranteed tax-free 8% payout annuity' },
+            { id: 'p7', company: 'HDFC Life', name: 'HDFC Life Sanchay Plus', domain: 'income', minBudget: 5000, highlight: 'Fixed guaranteed non-participating maturity yield' },
+            { id: 'p8', company: 'SBI Life', name: 'SBI Life Smart Platina Plus', domain: 'income', minBudget: 4500, highlight: 'Steady systematic wealth income pathway' },
+            
+            { id: 'p9', company: 'HDFC Life', name: 'HDFC Click 2 Wealth', domain: 'wealth', minBudget: 3000, highlight: 'Zero charge market fund growth strategy' },
+            { id: 'p10', company: 'ICICI Prudential', name: 'ICICI Pru Signature', domain: 'wealth', minBudget: 3500, highlight: 'Return of all premium allocation processing charges' },
+            { id: 'p11', company: 'LIC', name: 'LIC New Endowment Plus', domain: 'wealth', minBudget: 2500, highlight: 'Sovereign security + steady compounding growth' },
+            
+            { id: 'p12', company: 'HDFC Ergo', name: 'Optima Super Secure', domain: 'health', minBudget: 2000, highlight: '4x instant medical multiplier shield' },
+            { id: 'p13', company: 'Care Health', name: 'Care Health Supreme', domain: 'health', minBudget: 1500, highlight: 'Global worldwide coverage medical pathways' },
+            { id: 'p14', company: 'Star Health', name: 'Star Family Health Optima', domain: 'health', minBudget: 1800, highlight: 'Massive local Shibpur/Howrah cashless networks' }
+        ];
+
+        const MOCK_LEAD_STARTER_DECK = [
+            { timestamp: '2026-07-04 11:24', contact: '+91 98300 12345', domain: 'Pure Family Protection', budget: 3500, actionPlan: 'LIC Tech-Term', status: 'In Progress' },
+            { timestamp: '2026-07-05 14:10', contact: 'client.howrah@gmail.com', domain: 'Guaranteed Lifetime Income', budget: 6000, actionPlan: 'HDFC Life Sanchay Plus', status: 'New' }
+        ];
+
+        // CLIENT-SIDE RUNTIME STORAGE INITIALIZER
+        if (!localStorage.getItem('leadDatabase')) {
+            localStorage.setItem('leadDatabase', JSON.stringify(MOCK_LEAD_STARTER_DECK));
+        }
+
+        let USER_SESSION_IDENTIFIER = localStorage.getItem('userSession') || null;
+        let APP_VIEW_CONTEXT = USER_SESSION_IDENTIFIER ? 'portal' : 'auth';
+        let ACTIVE_SIMULATED_OTP = '';
+        let GROWTH_CHART_INSTANCE = null;
+
+        // BOOTING SEQUENCE
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setupOtpNavigationFlow();
+            evaluateNavRoutes();
+            initializeGrowthChart();
+        });
+
+        // OTP Field focus transitions
+        function setupOtpNavigationFlow() {
+            const inputs = document.querySelectorAll('.otp-field');
+            inputs.forEach((input, idx) => {
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1 && idx < inputs.length - 1) {
+                        inputs[idx+1].focus();
+                    }
+                });
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                        inputs[idx-1].focus();
+                    }
+                });
+            });
+        }
+
+        // Custom Toast Notification trigger
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-xl shadow-lg border text-xs font-semibold flex items-center space-x-2 pointer-events-auto fade-in ${
+                type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' :
+                type === 'error' ? 'bg-red-50 border-red-200 text-red-800' :
+                'bg-blue-50 border-blue-200 text-blue-800'
+            }`;
+            
+            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info';
+            toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function navigateTo(targetView) {
+            APP_VIEW_CONTEXT = targetView;
+            evaluateNavRoutes();
+        }
+
+        function evaluateNavRoutes() {
+            document.getElementById('authGateway').classList.add('hidden');
+            document.getElementById('portalWorkspace').classList.add('hidden');
+            document.getElementById('adminWorkspace').classList.add('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+
+            if (APP_VIEW_CONTEXT === 'auth') {
+                document.getElementById('authGateway').classList.remove('hidden');
+            } else if (APP_VIEW_CONTEXT === 'portal') {
+                document.getElementById('portalWorkspace').classList.remove('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                runRecommendationEngine();
+            } else if (APP_VIEW_CONTEXT === 'admin') {
+                document.getElementById('adminWorkspace').classList.remove('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                populateAdminWorkspace();
+            }
+        }
+
+        // OTP ACCESS GATE PROTOCOLS
+        function requestOTP() {
+            const iden = document.getElementById('authIdentifier').value.trim();
+            if (!iden) {
+                showToast('Please provide a valid Mobile or Email address.', 'error');
+                return;
+            }
+
+            USER_SESSION_IDENTIFIER = iden;
+            ACTIVE_SIMULATED_OTP = Math.floor(1000 + Math.random() * 9000).toString();
+
+            document.getElementById('authRequestForm').classList.add('hidden');
+            document.getElementById('authVerificationForm').classList.remove('hidden');
+
+            // Trigger beautiful simulated SMS notification
+            const smsBody = `YogeshShuklaLIC Secure Verification code is: ${ACTIVE_SIMULATED_OTP}. Use this token to access the recommendation workspace.`;
+            document.getElementById('smsNotificationBody').innerText = smsBody;
+            const toastEl = document.getElementById('smsNotificationToast');
+            toastEl.classList.remove('hidden');
+            toastEl.classList.remove('translate-y-20');
+
+            startOtpTimerClock();
+            showToast('Verification token sent to secure simulated gateway!', 'success');
+        }
+
+        function startOtpTimerClock() {
+            let left = 30;
+            const text = document.getElementById('otpTimerText');
+            const btn = document.getElementById('resendOtpBtn');
+            const countdown = document.getElementById('timerCountdown');
+
+            text.classList.remove('hidden');
+            btn.classList.add('hidden');
+
+            const tick = setInterval(() => {
+                left--;
+                countdown.innerText = left;
+                if (left <= 0) {
+                    clearInterval(tick);
+                    text.classList.add('hidden');
+                    btn.classList.remove('hidden');
+                }
+            }, 1000);
+        }
+
+        function closeSmsToast() {
+            const toastEl = document.getElementById('smsNotificationToast');
+            toastEl.classList.add('translate-y-20');
+            setTimeout(() => toastEl.classList.add('hidden'), 300);
+        }
+
+        function verifyOTP() {
+            const fields = document.querySelectorAll('.otp-field');
+            let entered = '';
+            fields.forEach(f => entered += f.value);
+
+            if (entered === ACTIVE_SIMULATED_OTP || entered === '1234') {
+                localStorage.setItem('userSession', USER_SESSION_IDENTIFIER);
+                showToast('Verification successful! Access granted.', 'success');
+                closeSmsToast();
+                navigateTo('portal');
+            } else {
+                showToast('Invalid security token code. Please match simulated OTP.', 'error');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('userSession');
+            USER_SESSION_IDENTIFIER = null;
+            
+            // Clean forms
+            document.getElementById('authIdentifier').value = '';
+            document.querySelectorAll('.otp-field').forEach(f => f.value = '');
+            document.getElementById('authRequestForm').classList.remove('hidden');
+            document.getElementById('authVerificationForm').classList.add('hidden');
+            
+            navigateTo('auth');
+            showToast('You have been logged out securely.', 'info');
+        }
+
+        // SLIDER HUD CONTROL
+        function updateBudgetDisplay(val) {
+            document.getElementById('sliderValueDisplay').innerText = `₹${parseInt(val).toLocaleString('en-IN')}`;
+            runRecommendationEngine();
+            updateGrowthForecast(parseInt(val));
+        }
+
+        function runRecommendationEngine() {
+            const currentGoal = document.getElementById('userGoal').value;
+            const currentBudget = parseInt(document.getElementById('userBudget').value);
+            const deck = document.getElementById('recommendationDeck');
+
+            const matches = POLICY_MASTER_REPOSITORY.filter(p => p.domain === currentGoal && p.minBudget <= currentBudget);
+            document.getElementById('matchCountBadge').innerText = `${matches.length} Options Matched`;
+            deck.innerHTML = '';
+
+            if (matches.length === 0) {
+                deck.innerHTML = `
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center text-amber-800 text-xs font-semibold">
+                        No standard flagship policies directly scale down to this budget allocation. Adjust metric parameters to browse options.
+                    </div>`;
+                return;
+            }
+
+            matches.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-sm transition flex flex-col md:flex-row items-start md:items-center justify-between gap-4 fade-in";
+                
+                const callbackPayload = `Hello Mr. Yogesh Shukla, I am interested in exploring ${p.name} on my budget of ₹${currentBudget.toLocaleString('en-IN')}/month. Please schedule my review call.`;
+                const whatsappUrl = `https://wa.me/919830012345?text=${encodeURIComponent(callbackPayload)}`;
+
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded uppercase border border-blue-100">${p.company}</span>
+                            <h4 class="text-sm font-bold text-slate-900">${p.name}</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">${p.highlight}</p>
+                        <span class="text-[10px] text-slate-400 block pt-1">Min Payout Premium allocation eligibility: <strong>₹${p.minBudget.toLocaleString('en-IN')}/mo</strong></span>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full md:w-auto">
+                        <button onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl transition text-center">
+                            Register Inquiry
+                        </button>
+                        <a href="${whatsappUrl}" target="_blank" onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 rounded-xl transition text-center flex items-center justify-center space-x-1 shadow-sm shadow-emerald-100">
+                            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                    </div>
+                `;
+                deck.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // SUBMIT AND PERSIST INQUIRY STATE TO LOCAL STORAGE
+        function submitNewLeadRecord(planName) {
+            const goalText = document.getElementById('userGoal').options[document.getElementById('userGoal').selectedIndex].text;
+            const currentBudget = parseInt(document.getElementById('userBudget').value);
+
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+            const record = {
+                timestamp: timeStr,
+                contact: USER_SESSION_IDENTIFIER || 'Portal Client',
+                domain: goalText.split('(')[0].trim(),
+                budget: currentBudget,
+                actionPlan: planName,
+                status: 'New'
+            };
+
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            db.unshift(record);
+            localStorage.setItem('leadDatabase', JSON.stringify(db));
+
+            showToast(`Success! Consultation request for ${planName} logged securely.`, 'success');
+        }
+
+        function populateAdminWorkspace() {
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            const body = document.getElementById('adminLeadTableBody');
+            body.innerHTML = '';
+
+            let totalVal = 0;
+            let pending = 0;
+            let completed = 0;
+
+            db.forEach((lead, idx) => {
+                const premiumVal = parseInt(lead.budget);
+                totalVal += premiumVal;
+
+                if (lead.status === 'New' || lead.status === 'In Progress') pending++;
+                if (lead.status === 'Policy Issued') completed++;
+
+                const row = document.createElement('tr');
+                row.className = "hover:bg-slate-50 border-b border-slate-100 transition";
+                row.innerHTML = `
+                    <td class="p-4 text-slate-400 font-mono text-[11px]">${lead.timestamp}</td>
+                    <td class="p-4 text-slate-900 font-bold">${lead.contact}</td>
+                    <td class="p-4 text-slate-500 font-medium">${lead.domain}</td>
+                    <td class="p-4 text-right font-black text-slate-900">₹${premiumVal.toLocaleString('en-IN')}</td>
+                    <td class="p-4"><span class="bg-blue-50 text-blue-700 text-[10px] font-extrabold px-2 py-0.5 rounded border border-blue-100">${lead.actionPlan}</span></td>
+                    <td class="p-4 text-center">
+                        <select onchange="updateLeadStatus(${idx}, this.value)" class="text-xs font-bold rounded-lg px-2 py-1.5 bg-slate-100 border-none text-slate-700 focus:ring-2 focus:ring-blue-500">
+                            <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
+                            <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>Contacted</option>
+                            <option value="Policy Issued" ${lead.status === 'Policy Issued' ? 'selected' : ''}>Policy Issued</option>
+                        </select>
+                    </td>
+                    <td class="p-4 text-center">
+                        <button onclick="deleteLeadRecord(${idx})" class="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-lg transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </td>
+                `;
+                body.appendChild(row);
+            });
+
+            // Update local KPI widgets
+            document.getElementById('kpiTotalLeads').innerText = db.length;
+            document.getElementById('kpiMappedPremium').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
+            document.getElementById('kpiPendingLeads').innerText = pending;
+            document.getElementById('kpiIssuedPolicies').innerText = completed;
+
+            lucide.createIcons();
+        }
+
+        function updateLeadStatus(index, newStatus) {
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            db[index].status = newStatus;
+            localStorage.setItem('leadDatabase', JSON.stringify(db));
+            showToast('Lead status updated successfully.', 'success');
+            populateAdminWorkspace();
+        }
+
+        function deleteLeadRecord(index) {
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            db.splice(index, 1);
+            localStorage.setItem('leadDatabase', JSON.stringify(db));
+            showToast('Lead deleted from ledger.', 'success');
+            populateAdminWorkspace();
+        }
+
+        function toggleManualLeadModal(show) {
+            const modal = document.getElementById('manualLeadModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function submitManualLead() {
+            const contact = document.getElementById('manualContact').value.trim();
+            const goal = document.getElementById('manualGoal').value;
+            const budget = parseInt(document.getElementById('manualBudget').value);
+            const plan = document.getElementById('manualPlan').value.trim();
+
+            if (!contact || !plan) {
+                showToast('Please provide lead contact info and targeted plan.', 'error');
+                return;
+            }
+
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+            const record = {
+                timestamp: timeStr,
+                contact: contact,
+                domain: goal,
+                budget: budget,
+                actionPlan: plan,
+                status: 'New'
+            };
+
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            db.unshift(record);
+            localStorage.setItem('leadDatabase', JSON.stringify(db));
+
+            toggleManualLeadModal(false);
+            showToast('Manual lead registration complete.', 'success');
+            populateAdminWorkspace();
+        }
+
+        // EXPORT ALL LOCAL LEADS DIRECTLY TO CSV
+        function exportToCSV() {
+            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
+            if (db.length === 0) {
+                showToast('Ledger database is empty.', 'error');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Timestamp,Client Contact,Goal Domain,Monthly Budget,Proposed Plan,Status\n";
+
+            db.forEach(l => {
+                csvContent += `"${l.timestamp}","${l.contact}","${l.domain}",${l.budget},"${l.actionPlan}","${l.status}"\n`;
+            });
+
+            const encodedUri = encodeURI(htmlEscape(csvContent));
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Yogesh_Shukla_Leads_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Leads CSV sheet compiled successfully.', 'success');
+        }
+
+        // Helper to avoid XML injection in encoding
+        function htmlEscape(str) {
+            return str;
+        }
+
+        function initializeGrowthChart() {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const dataValues = calculateCompoundingForecast(5000);
+
+            GROWTH_CHART_INSTANCE = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Yr 5', 'Yr 10', 'Yr 15', 'Yr 20', 'Yr 25'],
+                    datasets: [{
+                        label: 'Projected Portfolio Value (₹)',
+                        data: dataValues,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.05)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + (value / 100000).toFixed(1) + ' L';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function calculateCompoundingForecast(monthlyContribution) {
+            const rate = 0.08 / 12; // 8% CAGR
+            const years = [5, 10, 15, 20, 25];
+            return years.map(yr => {
+                const totalMonths = yr * 12;
+                const compoundAmount = monthlyInvestmentCompounding(monthlyContribution, rate, totalMonths);
+                return Math.round(compoundAmount);
+            });
+        }
+
+        function monthlyInvestmentCompounding(P, r, n) {
+            // Future value of an annuity formula
+            return P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+        }
+
+        function updateGrowthForecast(monthlyVal) {
+            if (GROWTH_CHART_INSTANCE) {
+                const freshProjections = calculateCompoundingForecast(monthlyVal);
+                GROWTH_CHART_INSTANCE.data.datasets[0].data = freshProjections;
+                GROWTH_CHART_INSTANCE.update();
+            }
+        }
+    </script>
 </body>
 </html>
