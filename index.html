@@ -3,890 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yogesh Shukla | Certified Financial Planner & Wealth Advisor</title>
-    
-    <!-- Tailwind CSS for modern responsive utilities -->
+    <title>Yogesh Shukla | MDRT Wealth Advisor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display for elite legacy feel, Plus Jakarta Sans for ultra-modern body typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons for premium minimalistic iconography -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js for beautiful interactive analytics projections -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        /* Smooth transitions & sophisticated glowing elements */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .gold-glow {
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
-        }
-        .emerald-glow {
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
-        }
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Custom styled slider thumb matching premium colorways */
-        input[type="range"]::-webkit-slider-thumb {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #f59e0b; /* Gold/Amber */
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-            border: 2px solid #ffffff;
-            transition: transform 0.1s ease;
-        }
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .heading-font { font-family: 'Playfair Display', serif; }
+        .glass-card { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .gold-glow:hover { border-color: rgba(234, 179, 8, 0.35); box-shadow: 0 0 20px rgba(234, 179, 8, 0.08); }
     </style>
 </head>
-<body class="bg-[#050814] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-amber-500/30 selection:text-amber-200">
+<body class="bg-[#070b12] text-slate-200 antialiased min-h-screen selection:bg-amber-500/20">
 
-    <!-- Glowing Background Accents for Visual Depth -->
-    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
-    <div class="fixed bottom-0 right-1/4 w-[600px] h-[600px] bg-amber-900/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+    <!-- Premium Custom In-App Notification System -->
+    <div id="toast" class="fixed bottom-6 right-6 z-[100] transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm w-full bg-slate-900 border border-amber-500/40 rounded-xl p-4 shadow-2xl flex items-start space-x-3">
+        <div class="bg-amber-500/10 p-2 rounded-lg text-amber-400">
+            <i data-lucide="gold" class="w-5 h-5"></i>
+        </div>
+        <div class="flex-1">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-100" id="toastTitle">System Msg</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-normal" id="toastMsg">Logging message placeholder block.</p>
+        </div>
+        <button onclick="dismissNotification()" class="text-slate-500 hover:text-slate-300"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
 
-    <!-- Header Navigation -->
-    <nav class="bg-[#050814]/70 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+    <!-- Executive Brand Header Track -->
+    <nav class="border-b border-slate-900 bg-[#070b12]/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3.5 cursor-pointer" onclick="navigateTo('portal')">
-                <div class="bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 p-2.5 rounded-xl shadow-lg shadow-amber-500/10">
-                    <i data-lucide="shield-check" class="w-6 h-6 stroke-[2]"></i>
+            <div class="flex items-center space-x-3.5">
+                <div class="bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 p-2 rounded-xl shadow-lg shadow-amber-500/10">
+                    <i data-lucide="gem" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <span class="font-serif font-black text-xl text-white tracking-wide block leading-none">Yogesh Shukla</span>
-                    <span class="text-[10px] text-amber-400 font-semibold tracking-widest uppercase block mt-1">Certified Financial Planner</span>
+                    <span class="heading-font font-bold text-lg text-white block tracking-wide">Yogesh Shukla</span>
+                    <span class="text-[9px] text-amber-400 font-extrabold tracking-widest uppercase block mt-0.5">MDRT Certified Financial Planner</span>
                 </div>
             </div>
-            
-            <div class="flex items-center space-x-3">
-                <button id="navAdminBtn" onclick="navigateTo('admin')" class="text-xs font-semibold text-slate-400 hover:text-amber-400 px-4 py-2.5 rounded-xl bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/60 hover:border-amber-500/30 transition-all duration-300 flex items-center space-x-2">
-                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-500"></i>
-                    <span>Admin Workspace</span>
+            <div class="flex items-center space-x-4">
+                <button id="hubToggle" onclick="switchViewContext('admin')" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-amber-400 flex items-center space-x-1 transition">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                    <span>Control Panel</span>
                 </button>
-                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-xs font-semibold text-rose-400 hover:text-white px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500 border border-rose-500/20 hover:border-transparent transition-all duration-300 flex items-center space-x-1.5">
+                <button id="exitAction" onclick="performLogoff()" class="hidden text-[10px] font-bold uppercase tracking-widest text-rose-400 hover:text-rose-500 flex items-center space-x-1 transition">
                     <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-                    <span>Logout</span>
+                    <span>Exit</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Global Floating Notification System (Built-in alerts replacement) -->
-    <div id="toastContainer" class="fixed top-24 right-4 z-50 space-y-3 pointer-events-none"></div>
-
-    <!-- Animated Simulated SMS Gateway Notification Toast -->
-    <div id="smsNotificationToast" class="fixed bottom-6 right-4 z-50 max-w-sm w-full bg-slate-950 text-white p-5 rounded-2xl shadow-2xl border border-slate-800 hidden transform translate-y-20 transition-all duration-300 ease-out flex items-start space-x-4">
-        <div class="bg-amber-500/10 text-amber-400 p-2.5 rounded-xl">
-            <i data-lucide="smartphone-charging" class="w-5 h-5"></i>
-        </div>
-        <div class="flex-1">
-            <div class="flex items-center justify-between">
-                <span class="font-bold text-[10px] uppercase tracking-widest text-amber-400">SMS Gateway Simulator</span>
-                <button onclick="closeSmsToast()" class="text-slate-500 hover:text-white transition"><i data-lucide="x" class="w-4 h-4"></i></button>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">From: <strong class="text-slate-200">YogeshShuklaCFP</strong></p>
-            <p class="text-sm text-slate-100 font-medium mt-1 leading-relaxed" id="smsNotificationBody"></p>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
-    <main class="max-w-6xl mx-auto px-4 py-12 flex-1 w-full">
-
-        <!-- SECURE OTP GATEWAY -->
-        <section id="authGateway" class="max-w-md mx-auto my-12 glass-panel rounded-2xl p-8 fade-in relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-amber-500 via-yellow-400 to-emerald-500"></div>
-            
-            <div class="text-center mb-8">
-                <div class="mx-auto w-14 h-14 bg-amber-500/5 text-amber-400 rounded-2xl flex items-center justify-center border border-amber-500/10 mb-4">
-                    <i data-lucide="user-check" class="w-7 h-7"></i>
-                </div>
-                <h2 class="font-serif text-2xl font-bold text-white tracking-wide">Secure Client Access</h2>
-                <p class="text-xs text-slate-400 mt-2 leading-relaxed">Authenticate securely with your credentials to access personalized wealth strategy matching.</p>
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        
+        <!-- COMPONENT LAYER 1: AUTHENTICATION ENVELOPE (OTP GATEWAY) -->
+        <section id="authLayer" class="max-w-md mx-auto my-12 glass-card rounded-2xl p-8 relative overflow-hidden shadow-2xl">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-yellow-400"></div>
+            <div class="text-center mb-6">
+                <h2 class="heading-font text-xl font-bold text-white tracking-wide">Secure Advisory Verification</h2>
+                <p class="text-xs text-slate-400 mt-1">Provide direct verification access coordinates to link to client ledger.</p>
             </div>
 
-            <!-- Login Input Request View -->
-            <div id="authRequestForm" class="space-y-5">
+            <div id="gateStart" class="space-y-4">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Mobile Number or Email Address</label>
-                    <input type="text" id="authIdentifier" placeholder="e.g. +91 98300 12345 or client@email.com" class="w-full bg-slate-950/70 border border-slate-800 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white text-sm placeholder:text-slate-600 transition-all">
+                    <label class="block text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Mobile Registry / Email Node</label>
+                    <input type="text" id="targetContact" placeholder="e.g., +91 98765 43210" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:border-amber-500/70 text-slate-200 text-sm transition">
                 </div>
-                <button onclick="requestOTP()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition duration-300 flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20">
-                    <span>Send Verification Code</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 stroke-[2.5]"></i>
+                <button onclick="handleRequestOtp()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/5">
+                    Request Secure Access Token
                 </button>
             </div>
 
-            <!-- Login OTP Verification Code Input View -->
-            <div id="authVerificationForm" class="hidden space-y-6">
+            <div id="gateConfirm" class="hidden space-y-4">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-center text-slate-400 mb-3">Enter 4-Digit Secure Token</label>
-                    <div class="flex justify-center space-x-3.5" id="otpFieldsGroup">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
-                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-800 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-950 text-white transition-all">
+                    <label class="block text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Verification Pin Code</label>
+                    <div class="flex justify-between space-x-2" id="pinBox">
+                        <input type="text" maxlength="1" class="pin-slot w-12 h-12 text-center text-lg font-bold bg-slate-950 border border-slate-800 rounded-xl text-amber-400 focus:border-amber-500 focus:outline-none">
+                        <input type="text" maxlength="1" class="pin-slot w-12 h-12 text-center text-lg font-bold bg-slate-950 border border-slate-800 rounded-xl text-amber-400 focus:border-amber-500 focus:outline-none">
+                        <input type="text" maxlength="1" class="pin-slot w-12 h-12 text-center text-lg font-bold bg-slate-950 border border-slate-800 rounded-xl text-amber-400 focus:border-amber-500 focus:outline-none">
+                        <input type="text" maxlength="1" class="pin-slot w-12 h-12 text-center text-lg font-bold bg-slate-950 border border-slate-800 rounded-xl text-amber-400 focus:border-amber-500 focus:outline-none">
                     </div>
                 </div>
-                <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition duration-300 shadow-lg shadow-emerald-600/10">
-                    Verify & Enter Advisor Portal
+                <button onclick="handleVerifyOtp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition">
+                    Unlock Advisor Environment
                 </button>
-                <div class="text-center">
-                    <span id="otpTimerText" class="text-xs text-slate-500">Resend available in <strong id="timerCountdown" class="text-slate-300">30</strong> seconds</span>
-                    <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-amber-400 font-bold hover:underline transition">Resend Verification Code</button>
-                </div>
             </div>
         </section>
 
-        <!-- PORTAL WORKSPACE (Live once authenticated) -->
-        <section id="portalWorkspace" class="hidden space-y-12 fade-in">
+        <!-- COMPONENT LAYER 2: AUTHENTICATED WORKSPACE CONSOLE -->
+        <section id="portalLayer" class="hidden space-y-12">
             
-            <!-- Elite Header Bio & Credentials Panel -->
-            <div class="glass-panel rounded-3xl p-8 md:p-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 shadow-xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-amber-500/5 to-transparent rounded-full pointer-events-none -z-10"></div>
-                <div class="space-y-5 max-w-3xl">
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-amber-500/10 text-amber-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-amber-500/20">Certified CFP® Advisor</span>
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-emerald-500/20">MDRT Member</span>
-                        <span class="bg-indigo-500/10 text-indigo-400 text-[10px] font-extrabold uppercase px-3 py-1.5 rounded-lg tracking-wider border border-indigo-500/20">LIFE Retirement Expert</span>
-                    </div>
-                    <h1 class="font-serif text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none">Yogesh Shukla</h1>
-                    <p class="text-slate-300 leading-relaxed text-sm md:text-base font-light">
-                        Specialize in providing highly client-centered, integrity-driven independent advice to individuals, businesses, and family trusts. Radically improving the quality of strategic asset protection and long-term financial coordination through a legacy-focused personal approach.
+            <!-- Luxury Metrics Board -->
+            <div class="glass-card rounded-2xl p-8 border-l-4 border-amber-500 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="space-y-2 max-w-2xl">
+                    <h1 class="heading-font text-2xl font-bold text-white tracking-wide">Structured Wealth Engineering</h1>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Custom multi-company advisory strategies built under strict parameters of safety, stability, and longevity by Mr. Yogesh Shukla, operating out of Howrah.
                     </p>
-                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-400 pt-2 font-medium">
-                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-amber-400 mr-2"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
-                        <span class="flex items-center"><i data-lucide="award" class="w-4 h-4 text-amber-400 mr-2"></i>CFP Reg ID: IN-2947118</span>
-                    </div>
                 </div>
-
-                <!-- Credential Fact Pillars -->
-                <div class="grid grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 lg:border-l border-slate-800/80 pt-8 lg:pt-0 lg:pl-10 shrink-0">
-                    <div class="bg-slate-950/60 border border-slate-800/60 p-5 rounded-2xl min-w-[140px]">
-                        <span class="text-3xl font-black text-white block font-serif">1,850+</span>
-                        <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block mt-2">Loyal Customers</span>
+                <div class="grid grid-cols-2 gap-6 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-slate-800 lg:pl-8 min-w-[240px]">
+                    <div>
+                        <span class="text-xl font-black text-white block">1,850+</span>
+                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Client Portfolios</span>
                     </div>
-                    <div class="bg-slate-950/60 border border-slate-800/60 p-5 rounded-2xl min-w-[140px]">
-                        <span class="text-3xl font-black text-amber-400 block font-serif">₹43.8Cr+</span>
-                        <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block mt-2">Life Fund Assets</span>
+                    <div>
+                        <span class="text-xl font-black text-amber-400 block">43.8 Cr+</span>
+                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Life Asset Cover</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Interactive Recommendation Console Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <!-- Setup Inputs Card Console -->
-                <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6 h-fit relative">
-                    <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-amber-500 to-transparent"></div>
-                    <div class="border-b border-slate-800 pb-4">
-                        <h3 class="font-serif text-lg font-bold text-white flex items-center space-x-2.5">
-                            <i data-lucide="sliders-horizontal" class="w-5 h-5 text-amber-400"></i>
-                            <span>Financial Criteria</span>
-                        </h3>
-                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">Adjust your financial metrics to instantly browse flagship strategies dynamically tailored to your cashflow.</p>
+            <!-- THE 4 MANDATORY DYNAMIC USER SELECTION OBJECTS -->
+            <div class="space-y-4">
+                <h3 class="heading-font text-lg font-bold text-white">Select Strategic Context Channel</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div onclick="executeCategoryFilter('protection')" id="btn_protection" class="glass-card p-5 rounded-xl cursor-pointer transition gold-glow relative">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">Pure Protection</h4>
+                        <p class="text-[10px] text-slate-400 mt-2">Term assurance engines securing optimized capital covers.</p>
                     </div>
-
-                    <!-- Goal Input Selector -->
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Primary Advisory Goal</label>
-                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3.5 py-3 bg-slate-950 border border-slate-800 text-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs font-semibold tracking-wide cursor-pointer transition">
-                            <option value="protection">Pure Family Protection (Term Plans)</option>
-                            <option value="income">Guaranteed Lifetime Income (Retirement)</option>
-                            <option value="wealth">Wealth Growth & Shielding (ULIPs / Asset Allocation)</option>
-                            <option value="health">Family Medical Security (Health Cover)</option>
-                        </select>
+                    <div onclick="executeCategoryFilter('income')" id="btn_income" class="glass-card p-5 rounded-xl cursor-pointer transition gold-glow relative">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">Lifetime Cashflow</h4>
+                        <p class="text-[10px] text-slate-400 mt-2">Whole-life blueprints producing guaranteed survival returns.</p>
                     </div>
-
-                    <!-- Budget scale slider -->
-                    <div>
-                        <div class="flex justify-between items-center mb-3">
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Target Monthly Allocation</label>
-                            <span id="sliderValueDisplay" class="text-xs font-extrabold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md">₹5,000</span>
-                        </div>
-                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-[9px] text-slate-500 font-bold uppercase tracking-wide pt-2">
-                            <span>₹1,500</span>
-                            <span>₹25,000</span>
-                        </div>
+                    <div onclick="executeCategoryFilter('endowment')" id="btn_endowment" class="glass-card p-5 rounded-xl cursor-pointer transition gold-glow relative">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">Safe Endowment</h4>
+                        <p class="text-[10px] text-slate-400 mt-2">Traditional compounding shields linking maturity payouts.</p>
                     </div>
-
-                    <!-- Visual Quick Info Box -->
-                    <div class="bg-indigo-950/20 border border-indigo-900/30 rounded-xl p-4 text-xs text-indigo-300 flex items-start space-x-2.5">
-                        <i data-lucide="info" class="w-4 h-4 shrink-0 text-indigo-400 mt-0.5"></i>
-                        <p class="leading-relaxed font-light">This algorithm scans master independent risk assets across elite carriers to match eligibility frameworks.</p>
-                    </div>
-                </div>
-
-                <!-- Dynamic Suggestions Presenter Deck -->
-                <div class="lg:col-span-2 space-y-5">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-serif text-lg font-bold text-white flex items-center space-x-2.5">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
-                            <span>Tailored Product Recommendations</span>
-                        </h3>
-                        <span id="matchCountBadge" class="bg-slate-900 text-slate-400 text-xs font-semibold px-3 py-1 rounded-full border border-slate-800/60">3 Options Matched</span>
-                    </div>
-
-                    <!-- Cards Deck Container -->
-                    <div id="recommendationDeck" class="space-y-4">
-                        <!-- Instantiated dynamically -->
-                    </div>
-
-                    <!-- Compounding Analytics Visualization (Aesthetics Boost) -->
-                    <div class="glass-panel rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                        <div class="flex items-center justify-between border-b border-slate-800/80 pb-4 mb-5">
-                            <div>
-                                <h4 class="font-serif text-sm font-bold text-white">Systematic Portfolio Outlook Projection</h4>
-                                <p class="text-[11px] text-slate-400 mt-0.5">Projected systematic long-term output growth estimation based on budget value</p>
-                            </div>
-                            <span class="text-[9px] bg-slate-900 border border-slate-800 font-bold px-2 py-1 text-slate-400 rounded-md uppercase tracking-wider">CAGR 8% Estimate</span>
-                        </div>
-                        <div class="h-52 w-full relative">
-                            <canvas id="growthChart"></canvas>
-                        </div>
+                    <div onclick="executeCategoryFilter('specialized')" id="btn_specialized" class="glass-card p-5 rounded-xl cursor-pointer transition gold-glow relative">
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">Specialized Options</h4>
+                        <p class="text-[10px] text-slate-400 mt-2">Market linked index indices and dedicated children funds.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Trust-Building Claim History Presentation -->
-            <div class="bg-gradient-to-b from-[#090D1A] to-slate-950 border border-slate-800/80 text-white rounded-3xl p-8 shadow-xl">
-                <div class="max-w-xl mb-8">
-                    <h3 class="font-serif text-2xl font-bold tracking-wide">Survival & Maturity Disbursals</h3>
-                    <p class="text-slate-400 text-xs mt-1 leading-relaxed">Verified actual legacy payouts processed, demonstrating extreme claims assistance dependability.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-slate-800/80 pt-8">
-                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
-                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2019 - 20</span>
-                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹95 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
-                    </div>
-                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
-                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2020 - 21</span>
-                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹86 Lakhs</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
-                    </div>
-                    <div class="border-l-2 border-emerald-500 pl-5 space-y-1.5">
-                        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block">Period 2021 - 22</span>
-                        <span class="text-3xl font-serif font-black text-slate-100 block leading-none">₹1.23 Crore</span>
-                        <span class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider flex items-center"><i data-lucide="badge-check" class="w-3.5 h-3.5 mr-1.5"></i>Settled & Paid</span>
-                    </div>
+            <!-- DYNAMIC PRODUCT MATRICES CONTAINER -->
+            <div class="space-y-4">
+                <div id="deckStatus" class="text-xs text-slate-400 font-bold tracking-wide uppercase border-b border-slate-800 pb-2">Active Plan Layouts</div>
+                <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="col-span-full py-12 text-center text-xs text-slate-600 bg-slate-950/30 rounded-xl border border-dashed border-slate-800">Select an execution channel above to retrieve records.</div>
                 </div>
             </div>
         </section>
 
-        <!-- ADMIN AREA -->
-        <section id="adminWorkspace" class="hidden space-y-6 fade-in">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-slate-800 pb-5 gap-4">
+        <!-- COMPONENT LAYER 3: BACKEND ADMINISTRATIVE CONTROL VIEW -->
+        <section id="adminLayer" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <h2 class="font-serif text-2xl font-bold text-white flex items-center space-x-2">
-                        <i data-lucide="layout-dashboard" class="w-6 h-6 text-amber-500"></i>
-                        <span>Admin Workspace Control</span>
-                    </h2>
-                    <p class="text-xs text-slate-400 mt-1">Manage, evaluate, and track client inquiries, strategic budgets, and lifecycle conversions.</p>
+                    <h2 class="heading-font text-xl font-bold text-white">Core Repository Ledger</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Real-time incoming client requirements mapped by API framework instances.</p>
                 </div>
-                
-                <!-- Action Controls Group -->
-                <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                    <button onclick="exportToCSV()" class="bg-slate-900/60 hover:bg-slate-900 text-slate-300 font-bold px-4 py-2.5 rounded-xl text-xs transition border border-slate-800/80 hover:border-slate-700/80 flex items-center space-x-2">
-                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                        <span>Export CSV Sheet</span>
-                    </button>
-                    <button onclick="toggleManualLeadModal(true)" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center space-x-2 shadow-lg shadow-amber-500/10">
-                        <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
-                        <span>Inject Custom Lead</span>
-                    </button>
-                    <button onclick="navigateTo('portal')" class="bg-slate-800 hover:bg-slate-950 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center space-x-2">
-                        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-                        <span>Client View</span>
-                    </button>
-                </div>
+                <button onclick="switchViewContext('portal')" class="bg-slate-900 border border-slate-800 hover:bg-slate-800 px-4 py-2 rounded-xl text-xs text-slate-300 tracking-wider font-bold uppercase transition">Return to Desktop</button>
             </div>
 
-            <!-- Admin Overview KPI Widgets -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
-                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Total Leads Logged</span>
-                    <span id="kpiTotalLeads" class="text-3xl font-serif font-black text-white block mt-1">0</span>
-                </div>
-                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
-                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Total Mapped Allocation</span>
-                    <span id="kpiMappedPremium" class="text-3xl font-serif font-black text-amber-500 block mt-1">₹0</span>
-                </div>
-                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
-                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Pending Conversion</span>
-                    <span id="kpiPendingLeads" class="text-3xl font-serif font-black text-orange-400 block mt-1">0</span>
-                </div>
-                <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
-                    <span class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider block">Successfully Issued</span>
-                    <span id="kpiIssuedPolicies" class="text-3xl font-serif font-black text-emerald-400 block mt-1">0</span>
-                </div>
-            </div>
-
-            <!-- Interactive Tabular Leads Grid -->
-            <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-slate-800/80">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-950 border-b border-slate-800 text-slate-400 text-[10px] font-bold uppercase tracking-wider">
-                                <th class="p-4">Submission Date</th>
-                                <th class="p-4">Client Contact</th>
-                                <th class="p-4">Mapped Goal Domain</th>
-                                <th class="p-4 text-right">Target Budget</th>
-                                <th class="p-4">Action Strategy</th>
-                                <th class="p-4 text-center">Status Track</th>
-                                <th class="p-4 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-800/60 text-xs text-slate-300 font-medium">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="bg-slate-950 border border-slate-900 rounded-xl overflow-hidden shadow-2xl">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-[9px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-800">
+                            <th class="p-4">Incident Stamp</th>
+                            <th class="p-4">Client Link</th>
+                            <th class="p-4">Intent Context</th>
+                            <th class="p-4">Assigned Portfolio Target</th>
+                            <th class="p-4 text-center">Lifecycle Status Track</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableTarget" class="divide-y divide-slate-900 text-xs font-medium text-slate-300">
+                        <!-- Populated iteratively via backend GET stream pipeline -->
+                    </tbody>
+                </table>
             </div>
         </section>
-
-        <!-- Dynamic Modal Backdrop: Inject Custom Lead (Admin Utility) -->
-        <div id="manualLeadModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-            <div class="bg-slate-950 rounded-2xl shadow-2xl max-w-md w-full border border-slate-800 overflow-hidden">
-                <div class="p-6 border-b border-slate-800/85 flex items-center justify-between">
-                    <h3 class="font-serif font-bold text-lg text-white">Manual Lead Registration</h3>
-                    <button onclick="toggleManualLeadModal(false)" class="text-slate-400 hover:text-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
-                </div>
-                <div class="p-6 space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Contact Email / Phone</label>
-                        <input type="text" id="manualContact" placeholder="e.g. client@email.com" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Target Goal Domain</label>
-                        <select id="manualGoal" class="w-full px-3.5 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs font-semibold text-slate-300 transition">
-                            <option value="Pure Family Protection">Pure Family Protection</option>
-                            <option value="Guaranteed Lifetime Income">Guaranteed Lifetime Income</option>
-                            <option value="Wealth Growth & Shielding">Wealth Growth & Shielding</option>
-                            <option value="Family Medical Security">Family Medical Security</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Proposed Monthly Budget (₹)</label>
-                        <input type="number" id="manualBudget" value="5000" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Proposed Plan Strategy</label>
-                        <input type="text" id="manualPlan" value="LIC Tech-Term" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
-                    </div>
-                </div>
-                <div class="p-6 bg-slate-900/50 border-t border-slate-800/85 flex justify-end space-x-2.5">
-                    <button onclick="toggleManualLeadModal(false)" class="px-5 py-2.5 rounded-xl text-slate-400 font-semibold hover:bg-slate-800 text-xs transition">Cancel</button>
-                    <button onclick="submitManualLead()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-md shadow-amber-500/10">Save Record</button>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <footer class="bg-slate-950 text-slate-500 py-8 text-center text-xs border-t border-slate-900/80">
-        <p>© 2026 Yogesh Shukla | Million Dollar Round Table (MDRT). All Rights Reserved.</p>
-        <p class="mt-2 text-slate-600 max-w-xl mx-auto font-light leading-relaxed">Certified advisory partner delivering independent strategy modeling across LIC, HDFC Life, SBI Life, ICICI Pru & Max Life portfolios.</p>
-    </footer>
-
-    <!-- Core State & Logic Module Interface Link -->
+    <!-- SYSTEM CORE PIPELINE INTERFACE SCRIPT ROUTINES -->
     <script>
-        const POLICY_MASTER_REPOSITORY = [
-            { id: 'p1', company: 'LIC', name: 'LIC Tech-Term', domain: 'protection', minBudget: 1500, highlight: 'Sovereign backed, maximum family claim assurance' },
-            { id: 'p2', company: 'HDFC Life', name: 'HDFC Click 2 Protect', domain: 'protection', minBudget: 2000, highlight: 'High dynamic flexibility, return of premium options' },
-            { id: 'p3', company: 'Max Life', name: 'Max Life Smart Secure Plus', domain: 'protection', minBudget: 1800, highlight: 'Excellent built-in critical illness riders' },
-            { id: 'p4', company: 'SBI Life', name: 'SBI Life eShield Next', domain: 'protection', minBudget: 2200, highlight: 'Robust terminal illness riders included' },
-            { id: 'p5', company: 'ICICI Prudential', name: 'ICICI Pru iProtect Smart', domain: 'protection', minBudget: 1900, highlight: 'Includes critical accidental protection tracks' },
-            
-            { id: 'p6', company: 'LIC', name: 'LIC Jeevan Utsav', domain: 'income', minBudget: 4000, highlight: 'Lifetime guaranteed tax-free 8% payout annuity' },
-            { id: 'p7', company: 'HDFC Life', name: 'HDFC Life Sanchay Plus', domain: 'income', minBudget: 5000, highlight: 'Fixed guaranteed non-participating maturity yield' },
-            { id: 'p8', company: 'SBI Life', name: 'SBI Life Smart Platina Plus', domain: 'income', minBudget: 4500, highlight: 'Steady systematic wealth income pathway' },
-            
-            { id: 'p9', company: 'HDFC Life', name: 'HDFC Click 2 Wealth', domain: 'wealth', minBudget: 3000, highlight: 'Zero charge market fund growth strategy' },
-            { id: 'p10', company: 'ICICI Prudential', name: 'ICICI Pru Signature', domain: 'wealth', minBudget: 3500, highlight: 'Return of all premium allocation processing charges' },
-            { id: 'p11', company: 'LIC', name: 'LIC New Endowment Plus', domain: 'wealth', minBudget: 2500, highlight: 'Sovereign security + steady compounding growth' },
-            
-            { id: 'p12', company: 'HDFC Ergo', name: 'Optima Super Secure', domain: 'health', minBudget: 2000, highlight: '4x instant medical multiplier shield' },
-            { id: 'p13', company: 'Care Health', name: 'Care Health Supreme', domain: 'health', minBudget: 1500, highlight: 'Global worldwide coverage medical pathways' },
-            { id: 'p14', company: 'Star Health', name: 'Star Family Health Optima', domain: 'health', minBudget: 1800, highlight: 'Massive local Shibpur/Howrah cashless networks' }
-        ];
+        const API_BASE = 'http://localhost:5000/api'; // Swap with live production URL during cloud upload
+        let CLIENT_CONTEXT_CONTACT = null;
 
-        const MOCK_LEAD_STARTER_DECK = [
-            { timestamp: '2026-07-04 11:24', contact: '+91 98300 12345', domain: 'Pure Family Protection', budget: 3500, actionPlan: 'LIC Tech-Term', status: 'In Progress' },
-            { timestamp: '2026-07-05 14:10', contact: 'client.howrah@gmail.com', domain: 'Guaranteed Lifetime Income', budget: 6000, actionPlan: 'HDFC Life Sanchay Plus', status: 'New' }
-        ];
-
-        // CLIENT-SIDE RUNTIME STORAGE INITIALIZER
-        if (!localStorage.getItem('leadDatabase')) {
-            localStorage.setItem('leadDatabase', JSON.stringify(MOCK_LEAD_STARTER_DECK));
-        }
-
-        let USER_SESSION_IDENTIFIER = localStorage.getItem('userSession') || null;
-        let APP_VIEW_CONTEXT = USER_SESSION_IDENTIFIER ? 'portal' : 'auth';
-        let ACTIVE_SIMULATED_OTP = '';
-        let GROWTH_CHART_INSTANCE = null;
-
-        // BOOTING SEQUENCE
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            setupOtpNavigationFlow();
-            evaluateNavRoutes();
-            initializeGrowthChart();
+            configurePinInputs();
         });
 
-        // OTP Field focus transitions
-        function setupOtpNavigationFlow() {
-            const inputs = document.querySelectorAll('.otp-field');
-            inputs.forEach((input, idx) => {
-                input.addEventListener('input', (e) => {
-                    if (e.target.value.length === 1 && idx < inputs.length - 1) {
-                        inputs[idx+1].focus();
-                    }
-                });
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && !e.target.value && idx > 0) {
-                        inputs[idx-1].focus();
-                    }
+        function showPopup(title, msg) {
+            const el = document.getElementById('toast');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMsg').textContent = msg;
+            el.className = el.className.replace("translate-y-24 opacity-0", "translate-y-0 opacity-100");
+            setTimeout(dismissNotification, 5000);
+        }
+
+        function dismissNotification() {
+            const el = document.getElementById('toast');
+            el.className = el.className.replace("translate-y-0 opacity-100", "translate-y-24 opacity-0");
+        }
+
+        function configurePinInputs() {
+            const slots = document.querySelectorAll('.pin-slot');
+            slots.forEach((s, i) => {
+                s.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1 && i < slots.length - 1) slots[i+1].focus();
                 });
             });
         }
 
-        // Custom Toast Notification trigger
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `p-4 rounded-xl shadow-xl border text-xs font-semibold flex items-center space-x-2 pointer-events-auto fade-in ${
-                type === 'success' ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-300' :
-                type === 'error' ? 'bg-rose-950/80 border-rose-500/30 text-rose-300' :
-                'bg-slate-900/90 border-slate-800 text-slate-200'
-            }`;
+        async function handleRequestOtp() {
+            const contact = document.getElementById('targetContact').value.trim();
+            if (!contact) return showPopup('Validation Error', 'Input telephone or email coordinates.');
             
-            const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'info';
-            toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
-            
-            container.appendChild(toast);
-            lucide.createIcons();
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
-
-        function navigateTo(targetView) {
-            APP_VIEW_CONTEXT = targetView;
-            evaluateNavRoutes();
-        }
-
-        function evaluateNavRoutes() {
-            document.getElementById('authGateway').classList.add('hidden');
-            document.getElementById('portalWorkspace').classList.add('hidden');
-            document.getElementById('adminWorkspace').classList.add('hidden');
-            document.getElementById('logoutBtn').classList.add('hidden');
-
-            if (APP_VIEW_CONTEXT === 'auth') {
-                document.getElementById('authGateway').classList.remove('hidden');
-            } else if (APP_VIEW_CONTEXT === 'portal') {
-                document.getElementById('portalWorkspace').classList.remove('hidden');
-                document.getElementById('logoutBtn').classList.remove('hidden');
-                runRecommendationEngine();
-            } else if (APP_VIEW_CONTEXT === 'admin') {
-                document.getElementById('adminWorkspace').classList.remove('hidden');
-                document.getElementById('logoutBtn').classList.remove('hidden');
-                populateAdminWorkspace();
+            const res = await fetch(`${API_BASE}/auth/send-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contact })
+            });
+            const data = await res.json();
+            if (data.success) {
+                CLIENT_CONTEXT_CONTACT = contact;
+                document.getElementById('gateStart').classList.add('hidden');
+                document.getElementById('gateConfirm').classList.remove('hidden');
+                showPopup('Token Dispatched', 'Authentication simulator pass token: Use code "1234".');
             }
         }
 
-        // OTP ACCESS GATE PROTOCOLS
-        function requestOTP() {
-            const iden = document.getElementById('authIdentifier').value.trim();
-            if (!iden) {
-                showToast('Please provide a valid Mobile or Email address.', 'error');
-                return;
-            }
-
-            USER_SESSION_IDENTIFIER = iden;
-            ACTIVE_SIMULATED_OTP = Math.floor(1000 + Math.random() * 9000).toString();
-
-            document.getElementById('authRequestForm').classList.add('hidden');
-            document.getElementById('authVerificationForm').classList.remove('hidden');
-
-            // Trigger beautiful simulated SMS notification
-            const smsBody = `YogeshShuklaLIC Secure Verification code is: ${ACTIVE_SIMULATED_OTP}. Use this token to access the recommendation workspace.`;
-            document.getElementById('smsNotificationBody').innerText = smsBody;
-            const toastEl = document.getElementById('smsNotificationToast');
-            toastEl.classList.remove('hidden');
-            toastEl.classList.remove('translate-y-20');
-
-            startOtpTimerClock();
-            showToast('Verification token sent to secure simulated gateway!', 'success');
-        }
-
-        function startOtpTimerClock() {
-            let left = 30;
-            const text = document.getElementById('otpTimerText');
-            const btn = document.getElementById('resendOtpBtn');
-            const countdown = document.getElementById('timerCountdown');
-
-            text.classList.remove('hidden');
-            btn.classList.add('hidden');
-
-            const tick = setInterval(() => {
-                left--;
-                countdown.innerText = left;
-                if (left <= 0) {
-                    clearInterval(tick);
-                    text.classList.add('hidden');
-                    btn.classList.remove('hidden');
-                }
-            }, 1000);
-        }
-
-        function closeSmsToast() {
-            const toastEl = document.getElementById('smsNotificationToast');
-            toastEl.classList.add('translate-y-20');
-            setTimeout(() => toastEl.classList.add('hidden'), 300);
-        }
-
-        function verifyOTP() {
-            const fields = document.querySelectorAll('.otp-field');
-            let entered = '';
-            fields.forEach(f => entered += f.value);
-
-            if (entered === ACTIVE_SIMULATED_OTP || entered === '1234') {
-                localStorage.setItem('userSession', USER_SESSION_IDENTIFIER);
-                showToast('Verification successful! Access granted.', 'success');
-                closeSmsToast();
-                navigateTo('portal');
+        async function handleVerifyOtp() {
+            let token = '';
+            document.querySelectorAll('.pin-slot').forEach(s => token += s.value);
+            
+            const res = await fetch(`${API_BASE}/auth/verify-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contact: CLIENT_CONTEXT_CONTACT, token })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('authLayer').classList.add('hidden');
+                document.getElementById('portalLayer').classList.remove('hidden');
+                document.getElementById('exitAction').classList.remove('hidden');
+                showPopup('Authorized Access', 'Vault decrypted for active target matching profiles.');
             } else {
-                showToast('Invalid security token code. Please match simulated OTP.', 'error');
+                showPopup('Token Rejection', 'Verification code matching failed. Re-enter code.');
             }
         }
 
-        function handleLogout() {
-            localStorage.removeItem('userSession');
-            USER_SESSION_IDENTIFIER = null;
+        async function executeCategoryFilter(category) {
+            ['protection', 'income', 'endowment', 'specialized'].forEach(c => {
+                document.getElementById(`btn_${c}`).className = document.getElementById(`btn_${c}`).className.replace("border-amber-500 bg-slate-900", "");
+            });
+            document.getElementById(`btn_${category}`).className += " border-amber-500 bg-slate-900";
+
+            const res = await fetch(`${API_BASE}/policies/${category}`);
+            const payload = await res.json();
             
-            // Clean forms
-            document.getElementById('authIdentifier').value = '';
-            document.querySelectorAll('.otp-field').forEach(f => f.value = '');
-            document.getElementById('authRequestForm').classList.remove('hidden');
-            document.getElementById('authVerificationForm').classList.add('hidden');
-            
-            navigateTo('auth');
-            showToast('You have been logged out securely.', 'info');
-        }
+            const targetGrid = document.getElementById('productGrid');
+            targetGrid.innerHTML = '';
 
-        // SLIDER HUD CONTROL
-        function updateBudgetDisplay(val) {
-            document.getElementById('sliderValueDisplay').innerText = `₹${parseInt(val).toLocaleString('en-IN')}`;
-            runRecommendationEngine();
-            updateGrowthForecast(parseInt(val));
-        }
-
-        function runRecommendationEngine() {
-            const currentGoal = document.getElementById('userGoal').value;
-            const currentBudget = parseInt(document.getElementById('userBudget').value);
-            const deck = document.getElementById('recommendationDeck');
-
-            const matches = POLICY_MASTER_REPOSITORY.filter(p => p.domain === currentGoal && p.minBudget <= currentBudget);
-            document.getElementById('matchCountBadge').innerText = `${matches.length} Options Matched`;
-            deck.innerHTML = '';
-
-            if (matches.length === 0) {
-                deck.innerHTML = `
-                    <div class="bg-amber-950/20 border border-amber-500/20 rounded-xl p-6 text-center text-amber-200 text-xs font-semibold">
-                        No standard flagship policies directly scale down to this budget allocation. Adjust metric parameters to browse options.
-                    </div>`;
-                return;
-            }
-
-            matches.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-900/60 border border-slate-800/80 hover:border-amber-500/40 rounded-xl p-5 shadow-sm transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 fade-in";
-                
-                const callbackPayload = `Hello Mr. Yogesh Shukla, I am interested in exploring ${p.name} on my budget of ₹${currentBudget.toLocaleString('en-IN')}/month. Please schedule my review call.`;
-                const whatsappUrl = `https://wa.me/919830012345?text=${encodeURIComponent(callbackPayload)}`;
-
-                card.innerHTML = `
+            payload.data.forEach(p => {
+                const block = document.createElement('div');
+                block.className = "bg-slate-950 border border-slate-900 p-5 rounded-xl flex flex-col justify-between space-y-4 hover:border-slate-800 transition";
+                block.innerHTML = `
                     <div class="space-y-1">
                         <div class="flex items-center space-x-2">
-                            <span class="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-md uppercase border border-amber-500/20 tracking-wider">${p.company}</span>
-                            <h4 class="text-sm font-bold text-white">${p.name}</h4>
+                            <span class="text-[8px] font-extrabold px-1.5 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded">PLAN ${p.plan_number}</span>
+                            <h4 class="text-xs font-bold text-white tracking-wide">${p.name}</h4>
                         </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">${p.highlight}</p>
-                        <span class="text-[10px] text-slate-500 block pt-1">Min Premium allocation eligibility: <strong>₹${p.minBudget.toLocaleString('en-IN')}/mo</strong></span>
+                        <p class="text-[11px] text-slate-400 leading-relaxed pt-1">${p.description}</p>
                     </div>
-                    <div class="flex items-center space-x-2 w-full md:w-auto">
-                        <button onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl transition-all duration-300 text-center">
-                            Register Inquiry
-                        </button>
-                        <a href="${whatsappUrl}" target="_blank" onclick="submitNewLeadRecord('${p.name}')" class="flex-1 md:flex-none text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-500 px-4 py-2.5 rounded-xl transition-all duration-300 text-center flex items-center justify-center space-x-1 shadow-sm shadow-amber-400/10">
-                            <i data-lucide="message-circle" class="w-3.5 h-3.5 stroke-[2.5]"></i>
-                            <span>WhatsApp</span>
-                        </a>
+                    <div class="flex items-center space-x-2 pt-2">
+                        <button onclick="dispatchClientLead('${category}', '${p.name} (${p.plan_number})')" class="flex-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 py-2 rounded-lg text-[10px] uppercase font-bold tracking-wider transition">Request Quote</button>
+                        <a href="${p.official_link}" target="_blank" onclick="dispatchClientLead('${category}', '${p.name} (${p.plan_number})')" class="flex-1 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold text-[10px] py-2 rounded-lg text-center uppercase tracking-wider transition">Brochure Link</a>
                     </div>
                 `;
-                deck.appendChild(card);
+                targetGrid.appendChild(block);
             });
             lucide.createIcons();
         }
 
-        // SUBMIT AND PERSIST INQUIRY STATE TO LOCAL STORAGE
-        function submitNewLeadRecord(planName) {
-            const goalText = document.getElementById('userGoal').options[document.getElementById('userGoal').selectedIndex].text;
-            const currentBudget = parseInt(document.getElementById('userBudget').value);
-
-            const now = new Date();
-            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-            const record = {
-                timestamp: timeStr,
-                contact: USER_SESSION_IDENTIFIER || 'Portal Client',
-                domain: goalText.split('(')[0].trim(),
-                budget: currentBudget,
-                actionPlan: planName,
-                status: 'New'
-            };
-
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            db.unshift(record);
-            localStorage.setItem('leadDatabase', JSON.stringify(db));
-
-            showToast(`Success! Consultation request for ${planName} logged securely.`, 'success');
-        }
-
-        function populateAdminWorkspace() {
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            const body = document.getElementById('adminLeadTableBody');
-            body.innerHTML = '';
-
-            let totalVal = 0;
-            let pending = 0;
-            let completed = 0;
-
-            db.forEach((lead, idx) => {
-                const premiumVal = parseInt(lead.budget);
-                totalVal += premiumVal;
-
-                if (lead.status === 'New' || lead.status === 'In Progress') pending++;
-                if (lead.status === 'Policy Issued') completed++;
-
-                const row = document.createElement('tr');
-                row.className = "hover:bg-slate-900/50 border-b border-slate-800/40 transition duration-150";
-                row.innerHTML = `
-                    <td class="p-4 text-slate-500 font-mono text-[11px]">${lead.timestamp}</td>
-                    <td class="p-4 text-slate-200 font-bold">${lead.contact}</td>
-                    <td class="p-4 text-slate-400 font-medium text-xs">${lead.domain}</td>
-                    <td class="p-4 text-right font-black text-amber-400 font-mono">₹${premiumVal.toLocaleString('en-IN')}</td>
-                    <td class="p-4"><span class="bg-indigo-500/10 text-indigo-300 text-[10px] font-extrabold px-2.5 py-1 rounded-md border border-indigo-500/20 tracking-wider uppercase">${lead.actionPlan}</span></td>
-                    <td class="p-4 text-center">
-                        <select onchange="updateLeadStatus(${idx}, this.value)" class="text-xs font-bold rounded-lg px-2.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-300 focus:ring-1 focus:ring-amber-500 focus:outline-none">
-                            <option value="New" ${lead.status === 'New' ? 'selected' : ''}>New</option>
-                            <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>Contacted</option>
-                            <option value="Policy Issued" ${lead.status === 'Policy Issued' ? 'selected' : ''}>Policy Issued</option>
-                        </select>
-                    </td>
-                    <td class="p-4 text-center">
-                        <button onclick="deleteLeadRecord(${idx})" class="text-rose-500 hover:text-rose-400 p-1.5 hover:bg-rose-500/10 rounded-lg transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </td>
-                `;
-                body.appendChild(row);
+        async function dispatchClientLead(intent, scheme) {
+            await fetch(`${API_BASE}/leads`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contact: CLIENT_CONTEXT_CONTACT || 'Anonymous Interface Trigger', intent, scheme })
             });
-
-            // Update local KPI widgets
-            document.getElementById('kpiTotalLeads').innerText = db.length;
-            document.getElementById('kpiMappedPremium').innerText = `₹${totalVal.toLocaleString('en-IN')}`;
-            document.getElementById('kpiPendingLeads').innerText = pending;
-            document.getElementById('kpiIssuedPolicies').innerText = completed;
-
-            lucide.createIcons();
+            showPopup('Portfolio Mapped', 'Inquiry data safely transferred to Mr. Shukla''s workspace database node.');
         }
 
-        function updateLeadStatus(index, newStatus) {
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            db[index].status = newStatus;
-            localStorage.setItem('leadDatabase', JSON.stringify(db));
-            showToast('Lead status updated successfully.', 'success');
-            populateAdminWorkspace();
-        }
+        async function switchViewContext(mode) {
+            if (mode === 'admin') {
+                document.getElementById('portalLayer').classList.add('hidden');
+                document.getElementById('authLayer').classList.add('hidden');
+                document.getElementById('adminLayer').classList.remove('hidden');
+                
+                const res = await fetch(`${API_BASE}/admin/leads`);
+                const payload = await res.json();
+                const body = document.getElementById('adminTableTarget');
+                body.innerHTML = '';
 
-        function deleteLeadRecord(index) {
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            db.splice(index, 1);
-            localStorage.setItem('leadDatabase', JSON.stringify(db));
-            showToast('Lead deleted from ledger.', 'success');
-            populateAdminWorkspace();
-        }
-
-        function toggleManualLeadModal(show) {
-            const modal = document.getElementById('manualLeadModal');
-            if (show) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
-        }
-
-        function submitManualLead() {
-            const contact = document.getElementById('manualContact').value.trim();
-            const goal = document.getElementById('manualGoal').value;
-            const budget = parseInt(document.getElementById('manualBudget').value);
-            const plan = document.getElementById('manualPlan').value.trim();
-
-            if (!contact || !plan) {
-                showToast('Please provide lead contact info and targeted plan.', 'error');
-                return;
+                payload.data.forEach(l => {
+                    const row = document.createElement('tr');
+                    row.className = "border-b border-slate-900 hover:bg-slate-950/40 transition";
+                    row.innerHTML = `
+                        <td class="p-4 font-mono text-[10px] text-slate-500">${new Date(l.timestamp).toLocaleString()}</td>
+                        <td class="p-4 text-white font-semibold">${l.client_contact}</td>
+                        <td class="p-4 text-slate-400 capitalize">${l.strategic_intent}</td>
+                        <td class="p-4"><span class="bg-slate-900 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-800">${l.selected_plan}</span></td>
+                        <td class="p-4 text-center">
+                            <select onchange="updateLeadLifecycle(${l.id}, this.value)" class="bg-slate-950 border border-slate-800 text-[10px] font-bold text-slate-300 rounded px-2 py-1">
+                                <option value="New" ${l.lifecycle_status==='New'?'selected':''}>New</option>
+                                <option value="Contacted" ${l.lifecycle_status==='Contacted'?'selected':''}>Contacted</option>
+                                <option value="Policy Issued" ${l.lifecycle_status==='Policy Issued'?'selected':''}>Policy Issued</option>
+                            </select>
+                        </td>
+                    `;
+                    body.appendChild(row);
+                });
+            } else {
+                document.getElementById('adminLayer').classList.add('hidden');
+                document.getElementById('portalLayer').classList.remove('hidden');
             }
-
-            const now = new Date();
-            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-            const record = {
-                timestamp: timeStr,
-                contact: contact,
-                domain: goal,
-                budget: budget,
-                actionPlan: plan,
-                status: 'New'
-            };
-
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            db.unshift(record);
-            localStorage.setItem('leadDatabase', JSON.stringify(db));
-
-            toggleManualLeadModal(false);
-            showToast('Manual lead registration complete.', 'success');
-            populateAdminWorkspace();
         }
 
-        // EXPORT ALL LOCAL LEADS DIRECTLY TO CSV
-        function exportToCSV() {
-            const db = JSON.parse(localStorage.getItem('leadDatabase')) || [];
-            if (db.length === 0) {
-                showToast('Ledger database is empty.', 'error');
-                return;
-            }
-
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Timestamp,Client Contact,Goal Domain,Monthly Budget,Proposed Plan,Status\n";
-
-            db.forEach(l => {
-                csvContent += `"${l.timestamp}","${l.contact}","${l.domain}",${l.budget},"${l.actionPlan}","${l.status}"\n`;
+        async function updateLeadLifecycle(id, status) {
+            await fetch(`${API_BASE}/admin/leads/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
             });
-
-            const encodedUri = encodeURI(htmlEscape(csvContent));
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Yogesh_Shukla_Leads_${Date.now()}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('Leads CSV sheet compiled successfully.', 'success');
+            showPopup('Lifecycle Modified', 'Database pipeline record altered state successfully.');
         }
 
-        // Helper to avoid XML injection in encoding
-        function htmlEscape(str) {
-            return str;
-        }
-
-        function initializeGrowthChart() {
-            const ctx = document.getElementById('growthChart').getContext('2d');
-            const dataValues = calculateCompoundingForecast(5000);
-
-            GROWTH_CHART_INSTANCE = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Yr 5', 'Yr 10', 'Yr 15', 'Yr 20', 'Yr 25'],
-                    datasets: [{
-                        label: 'Projected Portfolio Value (₹)',
-                        data: dataValues,
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.03)',
-                        borderWidth: 2.5,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#f59e0b',
-                        pointBorderColor: '#050814',
-                        pointHoverBackgroundColor: '#ffffff',
-                        pointHoverBorderColor: '#f59e0b'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.03)',
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                color: '#94a3b8'
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.03)',
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                callback: function(value) {
-                                    return '₹' + (value / 100000).toFixed(1) + ' L';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function calculateCompoundingForecast(monthlyContribution) {
-            const rate = 0.08 / 12; // 8% CAGR
-            const years = [5, 10, 15, 20, 25];
-            return years.map(yr => {
-                const totalMonths = yr * 12;
-                const compoundAmount = monthlyInvestmentCompounding(monthlyContribution, rate, totalMonths);
-                return Math.round(compoundAmount);
-            });
-        }
-
-        function monthlyInvestmentCompounding(P, r, n) {
-            // Future value of an annuity formula
-            return P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-        }
-
-        function updateGrowthForecast(monthlyVal) {
-            if (GROWTH_CHART_INSTANCE) {
-                const freshProjections = calculateCompoundingForecast(monthlyVal);
-                GROWTH_CHART_INSTANCE.data.datasets[0].data = freshProjections;
-                GROWTH_CHART_INSTANCE.update();
-            }
+        function performLogoff() {
+            CLIENT_CONTEXT_CONTACT = null;
+            location.reload();
         }
     </script>
 </body>
