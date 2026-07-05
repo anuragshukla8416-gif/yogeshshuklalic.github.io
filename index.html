@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yogesh Shukla | Certified Financial Planner & Advisor</title>
+    <!-- Tailwind CSS for professional, clean, modular layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons for clean UI elements -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-lg text-slate-900 block leading-tight">Yogesh Shukla</span>
+                    <span class="text-xs text-blue-600 font-medium tracking-wide uppercase">Certified Financial Planner</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="navAdminBtn" onclick="toggleAdminView(true)" class="text-sm font-medium text-slate-600 hover:text-blue-600 flex items-center space-x-1">
+                    <i data-lucide="lock" class="w-4 h-4"></i>
+                    <span>Admin Panel</span>
+                </button>
+                <button id="logoutBtn" onclick="handleLogout()" class="hidden text-sm font-medium text-red-600 hover:text-red-700 flex items-center space-x-1">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- GATE 1: AUTHENTICATION SCREEN (OTP GATEWAY) -->
+        <section id="authGateway" class="max-w-md mx-auto my-12 bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Secure Client Access</h2>
+                <p class="text-sm text-slate-500 mt-1">Verify your identity to get tailored financial plan suggestions.</p>
+            </div>
+            
+            <!-- Step A: Enter Phone/Email -->
+            <div id="authRequestForm">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Mobile Number or Email Address</label>
+                        <input type="text" id="authIdentifier" placeholder="e.g., +91 98765 43210 or name@email.com" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                    </div>
+                    <button onclick="requestOTP()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition duration-200 flex items-center justify-center space-x-2">
+                        <span>Send Secure Verification Code</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step B: Enter OTP (Hidden by default) -->
+            <div id="authVerificationForm" class="hidden">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Enter 4-Digit OTP Code</label>
+                        <div class="flex justify-between space-x-2" id="otpInputGroup">
+                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-xl font-bold border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <button onclick="verifyOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition duration-200">
+                        Verify & View Recommendations
+                    </button>
+                    <div class="text-center">
+                        <span id="otpTimerText" class="text-xs text-slate-400">Resend code in <strong id="timerCountdown">30</strong>s</span>
+                        <button id="resendOtpBtn" onclick="requestOTP()" class="hidden text-xs text-blue-600 font-medium hover:underline">Resend Verification Code</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GATE 2: CLIENT ADVISOR PORTAL & APP WORKSPACE (Hidden until login) -->
+        <section id="portalWorkspace" class="hidden space-y-12">
+            
+            <!-- Advisor Profile & Core Credentials Module -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+                <div class="space-y-3 max-w-2xl">
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-50 text-blue-700 text-xs font-bold uppercase px-2.5 py-1 rounded-md tracking-wider">MDRT Member</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs font-bold uppercase px-2.5 py-1 rounded-md tracking-wider">Retirement Planning Expert</span>
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Mr. Yogesh Shukla</h1>
+                    <p class="text-slate-600 leading-relaxed text-sm">
+                        Specializing in client-centered, integrity-driven independent advice to individuals, businesses, and trusts. Radically improving the standard of long-term risk protection and overall wealth management through a personalized approach.
+                    </p>
+                    <div class="flex items-center text-xs text-slate-500 space-x-4 pt-2">
+                        <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400 mr-1"></i>71 Atindra Mukherjee Lane, Shibpur, Howrah</span>
+                    </div>
+                </div>
+
+                <!-- Fast Fact Figures Side Matrix -->
+                <div class="grid grid-cols-2 gap-4 w-full md:w-auto border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-8">
+                    <div class="bg-slate-50 p-4 rounded-xl text-center md:text-left">
+                        <span class="text-2xl font-black text-slate-900 block">1,850+</span>
+                        <span class="text-xs text-slate-500 font-medium uppercase">Active Families</span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl text-center md:text-left">
+                        <span class="text-2xl font-black text-blue-600 block">₹43.8Cr+</span>
+                        <span class="text-xs text-slate-500 font-medium uppercase">Life Fund Assets</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Consultative Engine Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Inputs Console Column -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm h-fit space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+                            <i data-lucide="sliders" class="w-5 h-5 text-blue-600"></i>
+                            <span>Recommendation Criteria</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">Adjust fields to search available corporate frameworks instantly.</p>
+                    </div>
+
+                    <!-- Input 1: Primary Goal -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Primary Financial Goal</label>
+                        <select id="userGoal" onchange="runRecommendationEngine()" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium">
+                            <option value="protection">Pure Family Protection (Term Insurance)</option>
+                            <option value="income">Guaranteed Lifetime Income (Retirement/Savings)</option>
+                            <option value="wealth">Wealth Growth + Shielding (ULIPs / Asset Allocation)</option>
+                            <option value="health">Family Medical Security (Floater Frameworks)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input 2: Budget Slider -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-xs font-bold text-slate-600 uppercase">Target Monthly Investment</label>
+                            <span id="sliderValueDisplay" class="text-sm font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">₹5,000</span>
+                        </div>
+                        <input type="range" id="userBudget" min="1500" max="25000" step="500" value="5000" oninput="updateBudgetDisplay(this.value)" class="w-full accent-blue-600 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-[10px] text-slate-400 font-medium uppercase pt-1">
+                            <span>₹1,500/mo</span>
+                            <span>₹25,000/mo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Output Module Columns -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-emerald-600"></i>
+                            <span>Suggested Flagship Match Alternatives</span>
+                        </h3>
+                        <span id="matchCountBadge" class="bg-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">3 Matches</span>
+                    </div>
+
+                    <!-- Dynamic Card Deck Target Container -->
+                    <div id="recommendationDeck" class="space-y-4">
+                        <!-- Instantiated dynamically by engine inside app.js -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical Claim Payout Validation Track -->
+            <div class="bg-slate-900 text-white rounded-2xl p-8 shadow-sm">
+                <div class="max-w-xl mb-6">
+                    <h3 class="text-xl font-bold tracking-tight">Verified Survival & Maturity Disbursals</h3>
+                    <p class="text-slate-400 text-xs mt-1">Real operational historical values indicating verified client payout settlements over time.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-slate-800 pt-6">
+                    <div class="border-l-2 border-emerald-500 pl-4">
+                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2019 - 20</span>
+                        <span class="text-2xl font-black text-slate-100">₹95 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    </div>
+                    <div class="border-l-2 border-emerald-500 pl-4">
+                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2020 - 21</span>
+                        <span class="text-2xl font-black text-slate-100">₹86 Lakhs</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    </div>
+                    <div class="border-l-2 border-emerald-500 pl-4">
+                        <span class="text-xs text-slate-400 block font-medium uppercase">Financial Period 2021 - 22</span>
+                        <span class="text-2xl font-black text-slate-100">₹1.23 Crore</span>
+                        <span class="text-[10px] text-emerald-400 font-semibold block mt-1 uppercase tracking-wider">Settled & Closed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GATE 3: ADMINISTRATIVE WORKSPACE OVERLAY (Clean tabular view) -->
+        <section id="adminWorkspace" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center space-x-2">
+                        <i data-lucide="shield-alert" class="w-6 h-6 text-blue-600"></i>
+                        <span>Secure Lead Management Panel</span>
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Track consultative requirements, budget records, and incoming lead triggers.</p>
+                </div>
+                <button onclick="toggleAdminView(false)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-4 py-2 rounded-xl text-sm transition flex items-center space-x-1">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Back to Front Portal</span>
+                </button>
+            </div>
+
+            <!-- Tabular Structured Data Ledger -->
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                                <th class="p-4">Timestamp</th>
+                                <th class="p-4">Client Contact</th>
+                                <th class="p-4">Financial Goal Domain</th>
+                                <th class="p-4 text-right">Target Allocation Budget</th>
+                                <th class="p-4">Assigned Plan Action</th>
+                                <th class="p-4 text-center">Status Track</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminLeadTableBody" class="divide-y divide-slate-100 text-sm text-slate-700 font-medium">
+                            <!-- Populated via data structures loop inside app.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Project Execution Module Core Logic script link -->
+    <script src="app.js"></script>
+</body>
+</html>
